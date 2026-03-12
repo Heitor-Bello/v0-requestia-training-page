@@ -251,22 +251,36 @@ export function EnrollModal({
         throw new Error("Falha ao enviar e-mail");
       }
 
-      if (level === "essentials") {
-        onClose();
-        return;
-      }
+      const getLevelInfo = () => {
+        switch (level) {
+          case "essentials":
+            return {
+              levelNumber: "Nível 1",
+              levelName: "Requestia Essentials",
+              levelColor: "from-[#F2A57B] to-[#E97334]",
+            };
+          case "foundations":
+            return {
+              levelNumber: "Nível 2",
+              levelName: "Requestia Foundations",
+              levelColor: "from-[#6F8EAA] to-[#B3C6D9]",
+            };
+          case "expert":
+            return {
+              levelNumber: "Nível 3",
+              levelName: "Requestia Expert",
+              levelColor: "from-[#E7B15C] to-[#DE9627]",
+            };
+        }
+      };
+
+      const levelInfo = getLevelInfo();
 
       setConfirmationData({
         level: level,
-        levelNumber: level === "foundations" ? "Nível 2" : "Nível 3",
-        levelName:
-          level === "foundations"
-            ? "Requestia Foundations"
-            : "Requestia Expert",
-        levelColor:
-          level === "foundations"
-            ? "from-[#6F8EAA] to-[#B3C6D9]"
-            : "from-[#E7B15C] to-[#DE9627]",
+        levelNumber: levelInfo.levelNumber,
+        levelName: levelInfo.levelName,
+        levelColor: levelInfo.levelColor,
         date: trainingDetails.date,
         location: trainingDetails.location,
         duration: trainingDetails.duration,
