@@ -183,7 +183,9 @@ export default function ConfirmationPage() {
                     </div>
                     {confirmationData.pcdDescription && (
                       <div>
-                        <span className="text-sm text-gray-600">Descrição PCD</span>
+                        <span className="text-sm text-gray-600">
+                          Descrição PCD
+                        </span>
                         <p className="font-semibold text-gray-900">
                           {confirmationData.pcdDescription}
                         </p>
