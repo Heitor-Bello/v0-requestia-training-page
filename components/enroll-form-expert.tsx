@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp, Edit2, Trash2, Plus } from 'lucide-react'
+import { ChevronDown, ChevronUp, Edit2, Trash2, Plus, Loader2 } from 'lucide-react'
 import { Input } from './ui/input'
 
 interface AdditionalParticipant {
@@ -37,9 +37,10 @@ interface EnrollFormExpertProps {
   formData: FormData & { experience?: string; department?: string }
   onFormDataChange: (data: FormData & { experience?: string; department?: string }) => void
   onSubmit: (e: React.FormEvent) => void
+  isSubmitting?: boolean
 }
 
-export function EnrollFormExpert({ formData, onFormDataChange, onSubmit }: EnrollFormExpertProps) {
+export function EnrollFormExpert({ formData, onFormDataChange, onSubmit, isSubmitting = false }: EnrollFormExpertProps) {
   const [isParticipantDataExpanded, setIsParticipantDataExpanded] = useState(true)
   const [isCompanyDataExpanded, setIsCompanyDataExpanded] = useState(true)
   const [isAddParticipantExpanded, setIsAddParticipantExpanded] = useState(true)
@@ -542,9 +543,17 @@ export function EnrollFormExpert({ formData, onFormDataChange, onSubmit }: Enrol
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full px-8 py-6 bg-[#0D5B9C] text-white hover:bg-[#0D5B9C]/90 font-semibold text-sm rounded-2xl"
+            disabled={isSubmitting}
+            className="w-full px-8 py-6 bg-[#0D5B9C] text-white hover:bg-[#0D5B9C]/90 font-semibold text-sm rounded-2xl disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            Confirmar inscrição
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Processando...
+              </>
+            ) : (
+              'Confirmar inscrição'
+            )}
           </Button>
         </form>
       </div >

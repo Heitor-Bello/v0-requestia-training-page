@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
 
 interface FormData {
   fullName: string
@@ -23,9 +23,10 @@ interface EnrollFormEssentialsProps {
   formData: FormData
   onFormDataChange: (data: FormData) => void
   onSubmit: (e: React.FormEvent) => void
+  isSubmitting?: boolean
 }
 
-export function EnrollFormEssentials({ formData, onFormDataChange, onSubmit }: EnrollFormEssentialsProps) {
+export function EnrollFormEssentials({ formData, onFormDataChange, onSubmit, isSubmitting = false }: EnrollFormEssentialsProps) {
   const [isParticipantDataExpanded, setIsParticipantDataExpanded] = useState(true)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -143,8 +144,19 @@ export function EnrollFormEssentials({ formData, onFormDataChange, onSubmit }: E
           </div>
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full px-8 py-6 bg-[#0D5B9C] text-white hover:bg-[#0D5B9C]/90 font-semibold text-sm rounded-sm">
-            Confirmar inscrição
+          <Button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="w-full px-8 py-6 bg-[#0D5B9C] text-white hover:bg-[#0D5B9C]/90 font-semibold text-sm rounded-sm disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Processando...
+              </>
+            ) : (
+              'Confirmar inscrição'
+            )}
           </Button>
         </div>
       </form>

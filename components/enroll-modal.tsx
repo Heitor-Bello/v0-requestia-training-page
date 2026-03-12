@@ -65,6 +65,7 @@ export function EnrollModal({
 }: EnrollModalProps) {
   const router = useRouter();
   const { setConfirmationData } = useEnrollment();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     role: "",
@@ -195,6 +196,9 @@ export function EnrollModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
     const getTrainingDetails = () => {
       if (level === "foundations") {
@@ -303,6 +307,7 @@ export function EnrollModal({
       console.log(
         "Não foi possível concluir sua inscrição agora. Tente novamente.",
       );
+      setIsSubmitting(false);
     }
   };
 
@@ -314,6 +319,7 @@ export function EnrollModal({
             formData={formData}
             onFormDataChange={setFormData}
             onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
           />
         );
       case "foundations":
@@ -322,6 +328,7 @@ export function EnrollModal({
             formData={formData}
             onFormDataChange={setFormData}
             onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
           />
         );
       case "expert":
@@ -330,6 +337,7 @@ export function EnrollModal({
             formData={formData}
             onFormDataChange={setFormData}
             onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
           />
         );
       default:
@@ -338,6 +346,7 @@ export function EnrollModal({
             formData={formData}
             onFormDataChange={setFormData}
             onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
           />
         );
     }
