@@ -261,7 +261,10 @@ export function EnrollFormExpert({ formData, onFormDataChange, onSubmit, isSubmi
                       type="radio"
                       name="isPCD"
                       checked={isPCDNeeded === true}
-                      onChange={() => setIsPCDNeeded(true)}
+                      onChange={() => {
+                        setIsPCDNeeded(true)
+                        onFormDataChange({ ...formData, isPCD: true })
+                      }}
                       className="w-4 h-4 cursor-pointer"
                     />
                     <span className="text-sm text-[#212121]">Sim, sou PCD e preciso de acomodações.</span>
@@ -271,7 +274,11 @@ export function EnrollFormExpert({ formData, onFormDataChange, onSubmit, isSubmi
                       type="radio"
                       name="isPCD"
                       checked={isPCDNeeded === false}
-                      onChange={() => setIsPCDNeeded(false)}
+                      onChange={() => {
+                        setIsPCDNeeded(false)
+                        setPCDDescription('')
+                        onFormDataChange({ ...formData, isPCD: false, pcdDescription: '' })
+                      }}
                       className="w-4 h-4 cursor-pointer"
                     />
                     <span className="text-sm text-[#212121]">Não</span>
@@ -283,7 +290,10 @@ export function EnrollFormExpert({ formData, onFormDataChange, onSubmit, isSubmi
                   type="text"
                   placeholder="Descreva qual a sua necessidade, caso necessário*"
                   value={pcdDescription}
-                  onChange={(e) => setPCDDescription(e.target.value)}
+                  onChange={(e) => {
+                    setPCDDescription(e.target.value)
+                    onFormDataChange({ ...formData, pcdDescription: e.target.value })
+                  }}
                   disabled={isPCDNeeded !== true}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C] focus:border-transparent disabled:bg-white disabled:text-[#DCDCDD] disabled:cursor-not-allowed"
                 />
