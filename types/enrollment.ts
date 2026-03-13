@@ -1,10 +1,39 @@
 // types/enrollment.ts
 // Tipos centralizados para o sistema de inscrição de treinamentos
 
+// ============================================
+// TIPOS BASE E ENUMS
+// ============================================
+
 // Nível de treinamento
 export type Level = "essentials" | "foundations" | "expert";
 
-// Sessão de treinamento
+// ============================================
+// DADOS DE PESSOA (BASE REUTILIZÁVEL)
+// ============================================
+
+// Informações básicas de contato de uma pessoa
+export interface PersonContact {
+  email: string;
+  phone: string;
+}
+
+// Informações profissionais de uma pessoa
+export interface PersonProfessional {
+  role: string;
+  company: string;
+}
+
+// Dados de acessibilidade (PCD)
+export interface AccessibilityData {
+  isPCD?: boolean | null;
+  pcdDescription?: string;
+}
+
+// ============================================
+// SESSÃO DE TREINAMENTO
+// ============================================
+
 export interface TrainingSession {
   id: string;
   date: string;
@@ -12,35 +41,39 @@ export interface TrainingSession {
   duration: string;
 }
 
-// Participante adicional (usado internamente nos formulários com ID)
-export interface AdditionalParticipantWithId {
-  id: string;
+// Informações de exibição do nível
+export interface LevelDisplayInfo {
+  level: string;
+  levelNumber: string;
+  levelName: string;
+  levelColor: string;
+}
+
+// ============================================
+// PARTICIPANTES
+// ============================================
+
+// Participante adicional base
+export interface AdditionalParticipant extends PersonContact, AccessibilityData {
   addName: string;
-  company: string;
   role: string;
-  email: string;
-  phone: string;
+}
+
+// Participante adicional com ID (usado internamente nos formulários)
+export interface AdditionalParticipantWithId extends Omit<AdditionalParticipant, "isPCD" | "pcdDescription"> {
+  id: string;
+  company: string;
   isPCD: boolean | null;
   pcdDescription: string;
 }
 
-// Participante adicional (usado para envio e confirmação)
-export interface AdditionalParticipant {
-  addName: string;
-  role: string;
-  email: string;
-  phone: string;
-  isPCD?: boolean | null;
-  pcdDescription?: string;
-}
+// ============================================
+// DADOS DE FORMULÁRIO
+// ============================================
 
 // Dados do formulário base (campos comuns a todos os níveis)
-export interface BaseFormData {
+export interface BaseFormData extends PersonContact, PersonProfessional {
   fullName: string;
-  role: string;
-  company: string;
-  email: string;
-  phone: string;
   agreePrivacy: boolean;
   additionalParticipants?: AdditionalParticipant[];
 }
@@ -48,8 +81,8 @@ export interface BaseFormData {
 // Dados do formulário Essentials
 export type EssentialsFormData = BaseFormData;
 
-// Dados do formulário Foundations/Expert (com campos adicionais)
-export interface AdvancedFormData extends BaseFormData {
+// Campos extras para formulários avançados (Foundations/Expert)
+export interface AdvancedFormFields extends AccessibilityData {
   experience?: string;
   department?: string;
   currentSolution?: string;
@@ -57,31 +90,32 @@ export interface AdvancedFormData extends BaseFormData {
   budget?: string;
   compFinName?: string;
   compFinEmail?: string;
-  isPCD?: boolean | null;
-  pcdDescription?: string;
 }
 
+// Dados do formulário Foundations/Expert
+export interface AdvancedFormData extends BaseFormData, AdvancedFormFields {}
+
+// ============================================
+// DADOS DE CONFIRMAÇÃO
+// ============================================
+
 // Dados de confirmação exibidos na página de confirmação
-export interface ConfirmationData {
-  level: string;
-  levelNumber: string;
-  levelName: string;
-  levelColor: string;
-  date: string;
-  location: string;
-  duration: string;
+export interface ConfirmationData
+  extends LevelDisplayInfo,
+    Pick<TrainingSession, "date" | "location" | "duration">,
+    PersonContact,
+    PersonProfessional,
+    AccessibilityData {
   certification: string;
   fullName: string;
-  role: string;
-  company: string;
-  email: string;
-  phone: string;
   compFinName?: string;
   compFinEmail?: string;
-  isPCD?: boolean | null;
-  pcdDescription?: string;
   additionalParticipants?: AdditionalParticipant[];
 }
+
+// ============================================
+// PROPS DE COMPONENTES
+// ============================================
 
 // Props do EnrollModal
 export interface EnrollModalProps {
@@ -91,26 +125,15 @@ export interface EnrollModalProps {
   session?: TrainingSession | null;
 }
 
-// Props do formulário Essentials
-export interface EnrollFormEssentialsProps {
-  formData: EssentialsFormData;
-  onFormDataChange: (data: EssentialsFormData) => void;
+// Props base para formulários de inscrição (genérico)
+export interface BaseEnrollFormProps<T> {
+  formData: T;
+  onFormDataChange: (data: T) => void;
   onSubmit: (e: React.FormEvent) => void;
   isSubmitting?: boolean;
 }
 
-// Props do formulário Foundations
-export interface EnrollFormFoundationsProps {
-  formData: AdvancedFormData;
-  onFormDataChange: (data: AdvancedFormData) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  isSubmitting?: boolean;
-}
-
-// Props do formulário Expert
-export interface EnrollFormExpertProps {
-  formData: AdvancedFormData;
-  onFormDataChange: (data: AdvancedFormData) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  isSubmitting?: boolean;
-}
+// Props específicas dos formulários
+export type EnrollFormEssentialsProps = BaseEnrollFormProps<EssentialsFormData>;
+export type EnrollFormFoundationsProps = BaseEnrollFormProps<AdvancedFormData>;
+export type EnrollFormExpertProps = BaseEnrollFormProps<AdvancedFormData>;
