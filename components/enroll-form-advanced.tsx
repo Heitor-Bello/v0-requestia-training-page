@@ -471,31 +471,27 @@ export function EnrollFormAdvanced({
           </div>
 
           {/* Terms Checkbox */}
-          <div className="flex items-start gap-2 py-4">
-            <input
-              type="checkbox"
-              name="agreePrivacy"
-              checked={formData.agreePrivacy}
-              onChange={(e) =>
-                onFormDataChange({
-                  ...formData,
-                  agreePrivacy: e.target.checked,
-                })
-              }
-              required
-              className="mt-1 w-4 h-4 rounded border-gray-300 cursor-pointer"
-            />
-            <span className="text-sm text-gray-600">
-              Li e aceito os{" "}
-              <a href="#" className="text-[#0D5B9C] hover:underline">
-                termos de uso
-              </a>{" "}
-              e{" "}
-              <a href="#" className="text-[#0D5B9C] hover:underline">
-                política de privacidade
-              </a>
-              .
-            </span>
+          <div className="pt-5 border-t mt-auto">
+            <div className="flex gap-3 mb-4">
+              <input
+                type="checkbox"
+                name="agreePrivacy"
+                checked={formData.agreePrivacy}
+                onChange={(e) =>
+                  onFormDataChange({
+                    ...formData,
+                    agreePrivacy: e.target.checked,
+                  })
+                }
+                required
+                className="mt-1 w-4 h-4 rounded border-gray-300 text-[#0D5B9C] cursor-pointer"
+              />
+              <label className="text-xs text-[#5F7990] cursor-pointer">
+                Ao enviar este formulário, concordo com a utilização de todos
+                dados informados para o recebimento de contato comercial. Confirmo
+                que li e concordo com a Política de Privacidade.
+              </label>
+            </div>
           </div>
 
           {/* Submit Button */}
