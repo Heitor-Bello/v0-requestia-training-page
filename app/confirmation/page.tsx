@@ -255,6 +255,23 @@ export default function ConfirmationPage() {
                             <p className="text-sm text-gray-600">
                               {participant.phone}
                             </p>
+                            <p className="text-sm text-gray-600">
+                              Necessidades Especiais (PCD):{" "}
+                              {participant.isPCD === null ||
+                              participant.isPCD === undefined
+                                ? "—"
+                                : participant.isPCD
+                                  ? "Sim"
+                                  : "Não"}
+                            </p>
+                            {participant.isPCD && participant.pcdDescription && (
+                              <p className="text-sm text-gray-600">
+                                Descrição: {participant.pcdDescription}
+                              </p>
+                            )}
+                            <p className="text-sm text-gray-600">
+                              {participant.phone}
+                            </p>
                           </div>
                         </div>
                       </div>

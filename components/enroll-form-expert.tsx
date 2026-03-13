@@ -151,6 +151,8 @@ export function EnrollFormExpert({
       role: p.role,
       email: p.email,
       phone: p.phone,
+      isPCD: p.isPCD,
+      pcdDescription: p.pcdDescription,
     }));
     onFormDataChange({
       ...formData,
