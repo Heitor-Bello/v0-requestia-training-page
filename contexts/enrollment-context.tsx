@@ -7,6 +7,8 @@ interface AdditionalParticipant {
   role: string
   email: string
   phone: string
+  isPCD?: boolean | null
+  pcdDescription?: string
 }
 
 interface ConfirmationData {

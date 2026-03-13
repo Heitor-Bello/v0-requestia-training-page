@@ -39,6 +39,8 @@ interface FormData {
     role: string;
     email: string;
     phone: string;
+    isPCD?: boolean | null;
+    pcdDescription?: string;
   }>;
 }
 
@@ -117,7 +119,7 @@ export function EnrollFormFoundations({
 
   const handleSaveParticipant = () => {
     let updatedParticipants: AdditionalParticipant[];
-    
+
     if (editingParticipantId) {
       // Update existing
       updatedParticipants = additionalParticipants.map((p) =>
@@ -185,6 +187,8 @@ export function EnrollFormFoundations({
       role: p.role,
       email: p.email,
       phone: p.phone,
+      isPCD: p.isPCD,
+      pcdDescription: p.pcdDescription,
     }));
     onFormDataChange({
       ...formData,

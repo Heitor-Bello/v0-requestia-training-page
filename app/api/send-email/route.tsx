@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { z } from "zod";
 
+import { renderParticipantEmail } from "@/lib/email/templates";
+
 const optionalEmail = z.preprocess((value) => {
   if (typeof value !== "string") return value;
   const trimmed = value.trim();
@@ -36,12 +38,16 @@ const payloadSchema = z.object({
         role: z.string(),
         email: z.string().email(),
         phone: z.string(),
+        isPCD: z.boolean().nullable().optional(),
+        pcdDescription: z.string().optional(),
       }),
     )
     .optional(),
 });
 
-function buildAdminHtml(data: z.infer<typeof payloadSchema>) {
+type EmailPayload = z.infer<typeof payloadSchema>;
+
+function buildAdminHtml(data: EmailPayload) {
   const p = data.participant;
   const extras = (data.additionalParticipants ?? [])
     .map(
@@ -72,18 +78,6 @@ function buildAdminHtml(data: z.infer<typeof payloadSchema>) {
   `;
 }
 
-function buildParticipantHtml(data: z.infer<typeof payloadSchema>) {
-  return `
-    <h2>Inscrição recebida com sucesso</h2>
-    <p>Olá, ${data.participant.fullName}.</p>
-    <p>Recebemos sua inscrição no treinamento <strong>${data.level}</strong>.</p>
-    <p>Data: ${data.training.date ?? "A confirmar"}</p>
-    <p>Local: ${data.training.location ?? "A confirmar"}</p>
-    <p>Duração: ${data.training.duration ?? "-"}</p>
-    <p>Em breve nossa equipe fará a validação e retornará com os próximos passos.</p>
-  `;
-}
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -104,6 +98,7 @@ export async function POST(req: Request) {
     }
 
     const data = parsed.data;
+    const participantHtml = await renderParticipantEmail(data);
 
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
@@ -126,7 +121,7 @@ export async function POST(req: Request) {
       from: process.env.SMTP_FROM,
       to: data.participant.email,
       subject: "Confirmação de inscrição - Requestia",
-      html: buildParticipantHtml(data),
+      html: participantHtml,
     });
 
     return NextResponse.json({ ok: true });

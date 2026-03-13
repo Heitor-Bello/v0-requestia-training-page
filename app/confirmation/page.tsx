@@ -269,9 +269,6 @@ export default function ConfirmationPage() {
                                 Descrição: {participant.pcdDescription}
                               </p>
                             )}
-                            <p className="text-sm text-gray-600">
-                              {participant.phone}
-                            </p>
                           </div>
                         </div>
                       </div>

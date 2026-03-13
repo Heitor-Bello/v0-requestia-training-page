@@ -54,6 +54,8 @@ interface FormData {
     role: string;
     email: string;
     phone: string;
+    isPCD?: boolean | null;
+    pcdDescription?: string;
   }>;
 }
 
