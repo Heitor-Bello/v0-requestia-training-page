@@ -20,15 +20,7 @@ import {
 } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 import { EnrollModal } from "@/components/enroll-modal";
-
-type Level = "essentials" | "foundations" | "expert";
-
-interface TrainingSession {
-  id: string;
-  date: string;
-  location: string;
-  duration: string;
-}
+import type { Level, TrainingSession } from "@/types/enrollment";
 
 export default function Home() {
   const [selectedLevel, setSelectedLevel] = useState<Level>("essentials");

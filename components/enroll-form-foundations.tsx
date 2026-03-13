@@ -11,47 +11,10 @@ import {
   Loader2,
 } from "lucide-react";
 import { Input } from "./ui/input";
-
-interface AdditionalParticipant {
-  id: string;
-  addName: string;
-  company: string;
-  role: string;
-  email: string;
-  phone: string;
-  isPCD: boolean | null;
-  pcdDescription: string;
-}
-
-interface FormData {
-  fullName: string;
-  role: string;
-  email: string;
-  phone: string;
-  agreePrivacy: boolean;
-  company: string;
-  compFinName?: string;
-  compFinEmail?: string;
-  isPCD?: boolean | null;
-  pcdDescription?: string;
-  additionalParticipants?: Array<{
-    addName: string;
-    role: string;
-    email: string;
-    phone: string;
-    isPCD?: boolean | null;
-    pcdDescription?: string;
-  }>;
-}
-
-interface EnrollFormFoundationsProps {
-  formData: FormData & { experience?: string; department?: string };
-  onFormDataChange: (
-    data: FormData & { experience?: string; department?: string },
-  ) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  isSubmitting?: boolean;
-}
+import type {
+  AdditionalParticipantWithId,
+  EnrollFormFoundationsProps,
+} from "@/types/enrollment";
 
 export function EnrollFormFoundations({
   formData,
@@ -67,14 +30,14 @@ export function EnrollFormFoundations({
   const [isPCDNeeded, setIsPCDNeeded] = useState<boolean | null>(null);
   const [pcdDescription, setPCDDescription] = useState("");
   const [additionalParticipants, setAdditionalParticipants] = useState<
-    AdditionalParticipant[]
+    AdditionalParticipantWithId[]
   >([]);
   const [isAddingParticipant, setIsAddingParticipant] = useState(false);
   const [editingParticipantId, setEditingParticipantId] = useState<
     string | null
   >(null);
   const [formParticipant, setFormParticipant] = useState<
-    Omit<AdditionalParticipant, "id">
+    Omit<AdditionalParticipantWithId, "id">
   >({
     addName: "",
     company: "",
@@ -118,7 +81,7 @@ export function EnrollFormFoundations({
   };
 
   const handleSaveParticipant = () => {
-    let updatedParticipants: AdditionalParticipant[];
+    let updatedParticipants: AdditionalParticipantWithId[];
 
     if (editingParticipantId) {
       // Update existing
@@ -129,7 +92,7 @@ export function EnrollFormFoundations({
       setEditingParticipantId(null);
     } else {
       // Add new
-      const newParticipant: AdditionalParticipant = {
+      const newParticipant: AdditionalParticipantWithId = {
         id: Date.now().toString(),
         ...formParticipant,
       };
@@ -162,7 +125,7 @@ export function EnrollFormFoundations({
     });
   };
 
-  const handleEditParticipant = (participant: AdditionalParticipant) => {
+  const handleEditParticipant = (participant: AdditionalParticipantWithId) => {
     setFormParticipant({
       addName: participant.addName,
       company: participant.company,

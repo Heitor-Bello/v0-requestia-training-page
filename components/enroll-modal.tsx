@@ -18,46 +18,11 @@ import {
 import { EnrollFormEssentials } from "@/components/enroll-form-essentials";
 import { EnrollFormFoundations } from "@/components/enroll-form-foundations";
 import { EnrollFormExpert } from "@/components/enroll-form-expert";
-
-interface TrainingSession {
-  id: string;
-  date: string;
-  location: string;
-  duration: string;
-}
-
-interface EnrollModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  level: "essentials" | "foundations" | "expert";
-  session?: TrainingSession | null;
-}
-
-interface FormData {
-  fullName: string;
-  role: string;
-  company: string;
-  email: string;
-  phone: string;
-  agreePrivacy: boolean;
-  experience?: string;
-  department?: string;
-  currentSolution?: string;
-  goals?: string;
-  budget?: string;
-  compFinName?: string;
-  compFinEmail?: string;
-  isPCD?: boolean | null;
-  pcdDescription?: string;
-  additionalParticipants?: Array<{
-    addName: string;
-    role: string;
-    email: string;
-    phone: string;
-    isPCD?: boolean | null;
-    pcdDescription?: string;
-  }>;
-}
+import type {
+  TrainingSession,
+  EnrollModalProps,
+  AdvancedFormData,
+} from "@/types/enrollment";
 
 export function EnrollModal({
   isOpen,
@@ -68,7 +33,7 @@ export function EnrollModal({
   const router = useRouter();
   const { setConfirmationData } = useEnrollment();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<AdvancedFormData>({
     fullName: "",
     role: "",
     company: "",

@@ -100,6 +100,11 @@ export async function POST(req: Request) {
     const data = parsed.data;
     const participantHtml = await renderParticipantEmail(data);
 
+    const internalRecipients = (process.env.MAIL_TO_INTERNAL ?? "")
+      .split(/[;,]/)
+      .map((email) => email.trim())
+      .filter(Boolean);
+
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT ?? 587),
@@ -112,7 +117,7 @@ export async function POST(req: Request) {
 
     await transporter.sendMail({
       from: process.env.SMTP_FROM,
-      to: process.env.MAIL_TO_INTERNAL,
+      to: internalRecipients,
       subject: `[Treinamento] Nova inscrição - ${data.level}`,
       html: buildAdminHtml(data),
     });

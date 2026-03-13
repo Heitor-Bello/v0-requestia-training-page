@@ -258,17 +258,18 @@ export default function ConfirmationPage() {
                             <p className="text-sm text-gray-600">
                               Necessidades Especiais (PCD):{" "}
                               {participant.isPCD === null ||
-                              participant.isPCD === undefined
+                                participant.isPCD === undefined
                                 ? "—"
                                 : participant.isPCD
                                   ? "Sim"
                                   : "Não"}
                             </p>
-                            {participant.isPCD && participant.pcdDescription && (
-                              <p className="text-sm text-gray-600">
-                                Descrição: {participant.pcdDescription}
-                              </p>
-                            )}
+                            {participant.isPCD &&
+                              participant.pcdDescription && (
+                                <p className="text-sm text-gray-600">
+                                  Descrição: {participant.pcdDescription}
+                                </p>
+                              )}
                           </div>
                         </div>
                       </div>
@@ -339,7 +340,7 @@ export default function ConfirmationPage() {
         </div>
 
         {/* Help Section */}
-        <div className="bg-white rounded-lg border border-gray-200 p-8 mb-8">
+        <div className="bg-white rounded-lg border border-gray-200 p-8 mb-2">
           <h3 className="text-lg font-bold text-gray-900 mb-3">
             Precisa de ajuda?
           </h3>
@@ -348,18 +349,6 @@ export default function ConfirmationPage() {
             alterações necessárias.
           </p>
           <p className="text-gray-900 font-semibold">mkt@requestia.com</p>
-        </div>
-
-        {/* Back Button */}
-        <div className="text-center">
-          <Link href="/">
-            <Button
-              variant="ghost"
-              className="text-blue-600 hover:text-blue-700"
-            >
-              ← Voltar para trilha de treinamentos
-            </Button>
-          </Link>
         </div>
       </main>
     </div>
