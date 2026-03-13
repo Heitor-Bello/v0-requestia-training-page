@@ -16,8 +16,7 @@ import {
   MonitorPlay,
 } from "lucide-react";
 import { EnrollFormEssentials } from "@/components/enroll-form-essentials";
-import { EnrollFormFoundations } from "@/components/enroll-form-foundations";
-import { EnrollFormExpert } from "@/components/enroll-form-expert";
+import { EnrollFormAdvanced } from "@/components/enroll-form-advanced";
 import type {
   TrainingSession,
   EnrollModalProps,
@@ -279,44 +278,27 @@ export function EnrollModal({
   };
 
   const renderForm = () => {
-    switch (level) {
-      case "essentials":
-        return (
-          <EnrollFormEssentials
-            formData={formData}
-            onFormDataChange={setFormData}
-            onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-          />
-        );
-      case "foundations":
-        return (
-          <EnrollFormFoundations
-            formData={formData}
-            onFormDataChange={setFormData}
-            onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-          />
-        );
-      case "expert":
-        return (
-          <EnrollFormExpert
-            formData={formData}
-            onFormDataChange={setFormData}
-            onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-          />
-        );
-      default:
-        return (
-          <EnrollFormEssentials
-            formData={formData}
-            onFormDataChange={setFormData}
-            onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-          />
-        );
+    if (level === "essentials") {
+      return (
+        <EnrollFormEssentials
+          formData={formData}
+          onFormDataChange={setFormData}
+          onSubmit={handleSubmit}
+          isSubmitting={isSubmitting}
+        />
+      );
     }
+    
+    // Foundations and Expert use the same advanced form
+    return (
+      <EnrollFormAdvanced
+        level={level}
+        formData={formData}
+        onFormDataChange={setFormData}
+        onSubmit={handleSubmit}
+        isSubmitting={isSubmitting}
+      />
+    );
   };
 
   if (!isOpen) return null;
