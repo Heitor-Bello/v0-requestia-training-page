@@ -1,14 +1,13 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { z } from "zod";
-
-import { loadPublicTemplate, renderTemplate } from "@/lib/email/template-engine";
+import { renderContactInternalEmail } from "@/lib/email/templates/contact";
 
 const contactSchema = z.object({
-  name: z.string().min(1, "Nome é obrigatório"),
-  phone: z.string().min(1, "Telefone é obrigatório"),
-  email: z.string().email("E-mail inválido"),
-  message: z.string().min(1, "Mensagem é obrigatória"),
+  name: z.string().trim().min(1),
+  email: z.string().trim().email(),
+  phone: z.string().trim().min(1),
+  message: z.string().trim().min(1),
 });
 
 export async function POST(req: Request) {
@@ -20,7 +19,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Dados inválidos",
+          error: "Payload inválido",
           issues: parsed.error.issues.map((i) => ({
             path: i.path.join("."),
             message: i.message,
@@ -31,15 +30,7 @@ export async function POST(req: Request) {
     }
 
     const data = parsed.data;
-
-    // Load and render the contact email template
-    const template = await loadPublicTemplate("duvida-formstreinamento.html");
-    const html = renderTemplate(template, {
-      fullName: data.name,
-      email: data.email,
-      phone: data.phone,
-      message: data.message,
-    });
+    const html = await renderContactInternalEmail(data);
 
     const internalRecipients = (process.env.MAIL_TO_INTERNAL ?? "")
       .split(/[;,]/)
@@ -59,13 +50,13 @@ export async function POST(req: Request) {
     await transporter.sendMail({
       from: process.env.SMTP_FROM,
       to: internalRecipients,
-      subject: `[Treinamento] Nova dúvida de ${data.name}`,
-      html: html,
+      subject: "[Treinamento] Nova dúvida recebida",
+      html,
     });
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Erro ao enviar e-mail de contato:", error);
+    console.error("Erro ao enviar dúvida:", error);
     return NextResponse.json(
       { ok: false, error: "Falha no envio" },
       { status: 500 },

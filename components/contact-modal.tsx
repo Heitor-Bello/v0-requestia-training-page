@@ -7,6 +7,7 @@ import { X, MessageSquareWarning, Loader2 } from 'lucide-react'
 export function ContactModal() {
   const [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -41,7 +42,7 @@ export function ContactModal() {
         throw new Error('Falha ao enviar mensagem')
       }
 
-      setIsOpen(false)
+      setIsSuccess(true)
       setFormData({ name: '', phone: '', email: '', message: '' })
     } catch (error) {
       console.error('Erro ao enviar mensagem:', error)
@@ -52,6 +53,7 @@ export function ContactModal() {
 
   const handleCancel = () => {
     setIsOpen(false)
+    setIsSuccess(false)
     setFormData({ name: '', phone: '', email: '', message: '' })
   }
 
@@ -71,7 +73,7 @@ export function ContactModal() {
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 min-h-screen">
           {/* Modal */}
-          <div className="bg-white rounded-3xl shadow-2xl w-[500px] h-[450px] p-8 relative flex flex-col">
+          <div className="bg-white rounded-3xl shadow-2xl w-[500px] min-h-[450px] p-8 relative flex flex-col">
             {/* Close Button */}
             <button
               onClick={handleCancel}
@@ -81,18 +83,52 @@ export function ContactModal() {
               <X className="w-6 h-6 text-gray-600" />
             </button>
 
-            {/* Header */}
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Entre em contato
-            </h2>
+            {isSuccess ? (
+              /* Success State */
+              <div className="flex-1 flex flex-col items-center justify-center text-center py-8">
+                {/* Envelope Icon with Checkmark */}
+                <div className="relative mb-8">
+                  <svg width="120" height="100" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* Envelope Body */}
+                    <path d="M10 30L60 60L110 30V85C110 90 105 95 100 95H20C15 95 10 90 10 85V30Z" fill="#7BA3C9"/>
+                    {/* Envelope Flap */}
+                    <path d="M10 30L60 60L110 30L60 5L10 30Z" fill="#5B8AB8"/>
+                    {/* Paper */}
+                    <rect x="25" y="15" width="70" height="50" rx="3" fill="white"/>
+                    <rect x="35" y="28" width="50" height="4" rx="2" fill="#C5D5E5"/>
+                    <rect x="35" y="38" width="40" height="4" rx="2" fill="#C5D5E5"/>
+                    <rect x="35" y="48" width="30" height="4" rx="2" fill="#C5D5E5"/>
+                  </svg>
+                  {/* Checkmark Circle */}
+                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-[#4CAF50] rounded-full flex items-center justify-center shadow-lg">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5 10L8.5 13.5L15 7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
 
-            {/* Description */}
-            <p className="text-sm text-[#5F7990] mb-4 shrink-0">
-              Tem dúvidas sobre o treinamento? Envie sua mensagem e nossa equipe retornará em breve.
-            </p>
+                <h2 className="text-2xl font-bold text-[#003765] mb-4">
+                  Agradecemos o seu contato!
+                </h2>
+                <p className="text-[#5F7990] text-base max-w-[300px]">
+                  Recebemos a sua mensagem. Fique tranquilo, logo entraremos em contato com você.
+                </p>
+              </div>
+            ) : (
+              /* Form State */
+              <>
+                {/* Header */}
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  Entre em contato
+                </h2>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-3 w-full flex flex-col flex-1">
+                {/* Description */}
+                <p className="text-sm text-[#5F7990] mb-4 shrink-0">
+                  Tem dúvidas sobre o treinamento? Envie sua mensagem e nossa equipe retornará em breve.
+                </p>
+
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="space-y-3 w-full flex flex-col flex-1">
               {/* Full Name Input */}
               <input
                 type="text"
@@ -163,6 +199,8 @@ export function ContactModal() {
                 </Button>
               </div>
             </form>
+              </>
+            )}
           </div>
         </div>
       )}
