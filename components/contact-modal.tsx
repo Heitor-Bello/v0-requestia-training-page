@@ -2,10 +2,11 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { X, MessageSquareWarning } from 'lucide-react'
+import { X, MessageSquareWarning, Loader2 } from 'lucide-react'
 
 export function ContactModal() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -21,12 +22,32 @@ export function ContactModal() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
-    setIsOpen(false)
-    setFormData({ name: '', phone: '', email: '', message: '' })
+    
+    if (isSubmitting) return
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/send-contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        throw new Error('Falha ao enviar mensagem')
+      }
+
+      setIsOpen(false)
+      setFormData({ name: '', phone: '', email: '', message: '' })
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleCancel = () => {
@@ -128,9 +149,17 @@ export function ContactModal() {
                 </Button>
                 <Button
                   type="submit"
-                  className="px-6 py-2 bg-[#206EB0] text-white hover:bg-[#1a5a8f] font-semibold rounded-lg text-sm"
+                  disabled={isSubmitting}
+                  className="px-6 py-2 bg-[#206EB0] text-white hover:bg-[#1a5a8f] font-semibold rounded-lg text-sm disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Enviar mensagem
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    'Enviar mensagem'
+                  )}
                 </Button>
               </div>
             </form>
