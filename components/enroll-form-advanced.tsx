@@ -2,15 +2,9 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronDown,
-  ChevronUp,
-  Edit2,
-  Trash2,
-  Loader2,
-} from "lucide-react";
+import { ChevronDown, ChevronUp, Edit2, Trash2, Loader2 } from "lucide-react";
 import { Input } from "./ui/input";
-import { useAdditionalParticipants } from "@/hooks/useAdditionalParticipants";
+import { useAdditionalParticipants } from "@/hooks/use-additional-participants";
 import type {
   AdvancedFormData,
   Level,
@@ -32,9 +26,11 @@ export function EnrollFormAdvanced({
   isSubmitting = false,
 }: EnrollFormAdvancedProps) {
   // Section expansion states
-  const [isParticipantDataExpanded, setIsParticipantDataExpanded] = useState(true);
-  const [isCompanyDataExpanded, setIsCompanyDataExpanded] = useState(true);
-  const [isAddParticipantExpanded, setIsAddParticipantExpanded] = useState(true);
+  const [isParticipantDataExpanded, setIsParticipantDataExpanded] =
+    useState(true);
+  const [isCompanyDataExpanded, setIsCompanyDataExpanded] = useState(false);
+  const [isAddParticipantExpanded, setIsAddParticipantExpanded] =
+    useState(false);
 
   // PCD states
   const [isPCDNeeded, setIsPCDNeeded] = useState<boolean | null>(null);
@@ -57,7 +53,7 @@ export function EnrollFormAdvanced({
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     onFormDataChange({ ...formData, [name]: value });
@@ -90,7 +86,9 @@ export function EnrollFormAdvanced({
           <div className="mb-6 border-b pb-4">
             <button
               type="button"
-              onClick={() => setIsParticipantDataExpanded(!isParticipantDataExpanded)}
+              onClick={() =>
+                setIsParticipantDataExpanded(!isParticipantDataExpanded)
+              }
               className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity"
             >
               <h4 className="text-normal font-normal text-[#00233f]">
@@ -277,7 +275,9 @@ export function EnrollFormAdvanced({
           <div className="mb-6">
             <button
               type="button"
-              onClick={() => setIsAddParticipantExpanded(!isAddParticipantExpanded)}
+              onClick={() =>
+                setIsAddParticipantExpanded(!isAddParticipantExpanded)
+              }
               className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity"
             >
               <h4 className="text-normal font-normal text-[#00233f]">
@@ -313,7 +313,9 @@ export function EnrollFormAdvanced({
                         </button>
                         <button
                           type="button"
-                          onClick={() => handleDeleteParticipant(participant.id)}
+                          onClick={() =>
+                            handleDeleteParticipant(participant.id)
+                          }
                           className="p-1 hover:bg-red-50 rounded bg-white"
                         >
                           <Trash2 className="w-4 h-4 text-red-600" />
@@ -413,9 +415,7 @@ export function EnrollFormAdvanced({
                           <input
                             type="radio"
                             checked={formParticipant.isPCD === true}
-                            onChange={() =>
-                              setFormParticipant({ isPCD: true })
-                            }
+                            onChange={() => setFormParticipant({ isPCD: true })}
                             className="w-4 h-4 cursor-pointer"
                           />
                           <span className="text-sm text-[#212121]">
@@ -488,8 +488,15 @@ export function EnrollFormAdvanced({
               />
               <label className="text-xs text-[#5F7990] cursor-pointer">
                 Ao enviar este formulário, concordo com a utilização de todos
-                dados informados para o recebimento de contato comercial. Confirmo
-                que li e concordo com a Política de Privacidade.
+                dados informados para o recebimento de contato comercial.
+                Confirmo que li e concordo com a{" "}
+                <a
+                  className="text-[#206EB0] hover:underline"
+                  href="https://requestia.com/politica-e-seguranca"
+                  target="_blank"
+                >
+                  Política de Privacidade.
+                </a>
               </label>
             </div>
           </div>
