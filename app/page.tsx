@@ -205,12 +205,16 @@ export default function Home() {
                   {/* Conector */}
                   {index < arr.length - 1 && (
                     <div className="relative flex items-center justify-center w-12">
-                      <div className="absolute w-full h-[2px] bg-[#CBDDEF]" />
+                      <div className={`absolute w-full h-[2px] ${
+                        selectedLevel === level.id
+                          ? "bg-[#0D5B9C]"
+                          : "bg-[#CBDDEF]"
+                      }`} />
                       <div
-                        className={`relative z-10 w-4 h-4 rounded-full ${
+                        className={`relative z-10 w-3 h-3 rounded-full border-2 bg-[#E3EDF5] ${
                           selectedLevel === level.id
-                            ? "bg-[#0D5B9C]"
-                            : "bg-[#CBDDEF]"
+                            ? "border-[#0D5B9C]"
+                            : "border-[#CBDDEF]"
                         }`}
                       />
                     </div>
