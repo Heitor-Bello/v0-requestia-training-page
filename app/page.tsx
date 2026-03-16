@@ -204,14 +204,16 @@ export default function Home() {
 
                   {/* Conector */}
                   {index < arr.length - 1 && (
-                    <div className="relative flex items-center justify-center w-12">
+                    <div className="relative flex items-center w-10">
+                      {/* Linha conectora */}
                       <div className={`absolute w-full h-[2px] ${
                         selectedLevel === level.id
                           ? "bg-[#0D5B9C]"
                           : "bg-[#CBDDEF]"
                       }`} />
+                      {/* Círculo no final da linha */}
                       <div
-                        className={`relative z-10 w-3 h-3 rounded-full border-2 bg-[#E3EDF5] ${
+                        className={`absolute right-0 translate-x-1/2 w-[10px] h-[10px] rounded-full bg-white border-[2px] ${
                           selectedLevel === level.id
                             ? "border-[#0D5B9C]"
                             : "border-[#CBDDEF]"
