@@ -20,7 +20,15 @@ import {
 } from "lucide-react";
 import { ContactModal } from "@/components/contact-modal";
 import { EnrollModal } from "@/components/enroll-modal";
-import type { Level, TrainingSession } from "@/types/enrollment";
+
+type Level = "essentials" | "foundations" | "expert";
+
+interface TrainingSession {
+  id: string;
+  date: string;
+  location: string;
+  duration: string;
+}
 
 export default function Home() {
   const [selectedLevel, setSelectedLevel] = useState<Level>("essentials");
@@ -59,6 +67,25 @@ export default function Home() {
             height={317}
           />
         </div>
+
+        {/* SVG 2 (lateral right lines) */}
+        <svg
+          className="absolute"
+          style={{ right: "0px", top: "-40px" }}
+          width="62"
+          height="455"
+          viewBox="0 0 62 455"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M61.5 454.5H32.5C14.8269 454.5 0.5 440.173 0.5 422.5V0.5"
+            stroke="#5F7990"
+            strokeLinecap="round"
+            strokeDasharray="6 6"
+            strokeWidth="1.5"
+          />
+        </svg>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -108,25 +135,6 @@ export default function Home() {
                     strokeWidth="1.5"
                   />
                 </svg>
-
-                {/* SVG 2 (lateral right lines) */}
-                <svg
-                  className="absolute"
-                  style={{ right: "-140px", top: "-40px" }}
-                  width="62"
-                  height="455"
-                  viewBox="0 0 62 455"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M61.5 454.5H32.5C14.8269 454.5 0.5 440.173 0.5 422.5V0.5"
-                    stroke="#5F7990"
-                    strokeLinecap="round"
-                    strokeDasharray="6 6"
-                    strokeWidth="1.5"
-                  />
-                </svg>
               </div>
 
               {/* Profile Circle - In front of SVG */}
@@ -172,10 +180,10 @@ export default function Home() {
       <section className="relative overflow-hidden bg-[#F4F7FA]">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-[28px] font-semibold text-[#00233f] mb-4">
+            <h2 className="text-[28px] font-semibold text-[#003765] mb-2 leading-[140%]">
               Níveis de treinamento
             </h2>
-            <p className="text-2xl font-regular text-[#5F7990]">
+            <p className="text-[22px] font-regular text-[#5F7990] leading-[140%]">
               Escolha o nível adequado ao seu momento e avanço na trilha de
               capacitação.
             </p>
@@ -184,20 +192,21 @@ export default function Home() {
           {/* Level buttons */}
           <div className="flex justify-center mb-12">
             <div className="relative flex items-center bg-[#E3EDF5] p-5 rounded-full">
-              {([
-                { id: "essentials", label: "Essentials" },
-                { id: "foundations", label: "Foundations" },
-                { id: "expert", label: "Expert" },
-              ] as const).map((level, index, arr) => (
+              {(
+                [
+                  { id: "essentials", label: "Essentials" },
+                  { id: "foundations", label: "Foundations" },
+                  { id: "expert", label: "Expert" },
+                ] as const
+              ).map((level, index, arr) => (
                 <div key={level.id} className="relative flex items-center">
                   <button
                     onClick={() => setSelectedLevel(level.id)}
                     className={`relative z-10 px-5 py-2 rounded-full text-base sm:text-xl font-regular transition-all
-            ${
-              selectedLevel === level.id
-                ? "bg-[#0D5B9C] text-white"
-                : "bg-[#CBDDEF] text-white/70 hover:bg-[#ACC8E4]"
-            }`}
+            ${selectedLevel === level.id
+                        ? "bg-[#0D5B9C] text-white"
+                        : "bg-[#CBDDEF] text-white/70 hover:bg-[#ACC8E4]"
+                      }`}
                   >
                     {level.label}
                   </button>
@@ -206,18 +215,18 @@ export default function Home() {
                   {index < arr.length - 1 && (
                     <div className="relative flex items-center w-10">
                       {/* Linha conectora */}
-                      <div className={`absolute w-full h-[2px] ${
-                        selectedLevel === level.id
-                          ? "bg-[#0D5B9C]"
-                          : "bg-[#CBDDEF]"
-                      }`} />
+                      <div
+                        className={`absolute w-[68%] h-[2px] ${selectedLevel === level.id
+                            ? "bg-[#0D5B9C]"
+                            : "bg-[#CBDDEF]"
+                          }`}
+                      />
                       {/* Círculo no final da linha */}
                       <div
-                        className={`absolute right-0 translate-x-1/2 w-[10px] h-[10px] rounded-full bg-white border-[2px] ${
-                          selectedLevel === level.id
+                        className={`absolute right-[9px] translate-x-1/2 w-[10px] h-[10px] rounded-full bg-white border-[3.5px] ${selectedLevel === level.id
                             ? "border-[#0D5B9C]"
                             : "border-[#CBDDEF]"
-                        }`}
+                          }`}
                       />
                     </div>
                   )}
@@ -501,7 +510,7 @@ export default function Home() {
           <Quote className="w-10 h-10 text-[#0D5B9C] mb-6" />
 
           {/* Testimonial text */}
-          <p className="text-[#3F556B] text-base leading-relaxed italic mb-8 max-w-4xl">
+          <p className="text-[#3F556B] text-base leading-relaxed italic mb-8 w-full">
             “O treinamento é fundamental para quem utiliza a plataforma, pois
             amplia a compreensão sobre suas possibilidades e mostra até onde é
             possível evoluir com a tecnologia. Conteúdo produtivo, com temas
