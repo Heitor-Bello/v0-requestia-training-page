@@ -1,11 +1,14 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { EnrollmentProvider } from '@/contexts/enrollment-context'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-roboto",
+});
 
 export const metadata: Metadata = {
   title: 'Inscrição de Treinamento - Requestia',
@@ -37,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className="font-sans antialiased bg-gradient-to-b from-[#f4f7fa] to-white">
+      <body className={`${roboto.variable} font-sans antialiased bg-gradient-to-b from-[#f4f7fa] to-white`}>
         <EnrollmentProvider>
           {children}
         </EnrollmentProvider>
