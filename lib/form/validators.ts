@@ -23,7 +23,27 @@ export function validateName(value: string): ValidationResult {
   return { isValid: true };
 }
 
-// Validação para e-mail
+// Blacklist de domínios de e-mail pessoais (não institucionais)
+const EMAIL_DOMAIN_BLACKLIST = [
+  "gmail.com",
+  "yahoo.com",
+  "ymail.com",
+  "yahoo.com.br",
+  "google.com",
+  "mailsphere.xyz",
+  "hotmail.com",
+  "outlook.com",
+  "live.com",
+  "bol.com",
+  "uol.com",
+  "terra.com",
+  "ig.com",
+  "icloud.com",
+  "deskmanager.com",
+  "qualitor.com",
+];
+
+// Validação para e-mail (corporativo/institucional)
 export function validateEmail(value: string): ValidationResult {
   if (!value.trim()) {
     return { isValid: false, error: "Campo obrigatório" };
@@ -33,6 +53,15 @@ export function validateEmail(value: string): ValidationResult {
 
   if (!emailRegex.test(value)) {
     return { isValid: false, error: "E-mail inválido" };
+  }
+
+  // Extrai o domínio do e-mail e verifica na blacklist
+  const domain = value.split("@")[1]?.toLowerCase();
+  if (domain && EMAIL_DOMAIN_BLACKLIST.includes(domain)) {
+    return {
+      isValid: false,
+      error: "Por favor, utilize um e-mail corporativo",
+    };
   }
 
   return { isValid: true };
