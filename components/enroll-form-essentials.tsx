@@ -33,7 +33,7 @@ export function EnrollFormEssentials({
   };
 
   return (
-    <div className="md:col-span-2 border p-6 shadow-lg shadow-[#004680]/10 rounded-2xl flex flex-col h-[65vh]">
+    <div className="md:col-span-2 border p-6 shadow-lg shadow-[#004680]/10 rounded-2xl flex flex-col max-h-[80vh] sm:h-[65vh]">
       <h3 className="text-2xl font-normal text-[#00233f] mb-6">
         Dados para inscrição
       </h3>
