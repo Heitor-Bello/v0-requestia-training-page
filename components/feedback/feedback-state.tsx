@@ -49,11 +49,13 @@ export const feedbackConfig = {
   enrollmentSuccess: {
     type: "success" as const,
     title: "Inscrição realizada!",
-    message: "Sua inscrição foi concluída com sucesso. Em breve você receberá um e-mail de confirmação.",
+    message:
+      "Sua inscrição foi concluída com sucesso. Em breve você receberá um e-mail de confirmação.",
   },
   enrollmentError: {
     type: "error" as const,
     title: "Erro na inscrição",
-    message: "Não foi possível concluir sua inscrição. Tente novamente em alguns instantes.",
+    message:
+      "Não foi possível concluir sua inscrição. Tente novamente em alguns instantes.",
   },
 };

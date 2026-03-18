@@ -1,1 +1,1 @@
-export { FeedbackState, feedbackConfig } from "./FeedbackState";
+export { FeedbackState, feedbackConfig } from "./feedback-state";
