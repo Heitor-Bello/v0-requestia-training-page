@@ -197,7 +197,8 @@ export function EnrollFormAdvanced({
                   <FormField
                     type="text"
                     name="fullName"
-                    placeholder="Nome Completo *"
+                    label="Nome Completo"
+                    placeholder="Escreva seu nome..."
                     value={formData.fullName}
                     onChange={(e) => {
                       handleInputChange(e);
@@ -211,7 +212,8 @@ export function EnrollFormAdvanced({
                   <FormField
                     type="tel"
                     name="phone"
-                    placeholder="Telefone *"
+                    label="Telefone"
+                    placeholder="(00) 00000-0000"
                     value={formData.phone}
                     onChange={(e) => {
                       handleInputChange(e);
@@ -230,7 +232,8 @@ export function EnrollFormAdvanced({
                   <FormField
                     type="email"
                     name="email"
-                    placeholder="E-mail corporativo *"
+                    label="E-mail corporativo"
+                    placeholder="seu@empresa.com"
                     value={formData.email}
                     onChange={(e) => {
                       handleInputChange(e);
@@ -244,7 +247,8 @@ export function EnrollFormAdvanced({
                   <FormField
                     type="text"
                     name="role"
-                    placeholder="Cargo/Função *"
+                    label="Cargo/Função"
+                    placeholder="Ex: Gerente"
                     value={formData.role}
                     onChange={(e) => {
                       handleInputChange(e);
@@ -356,7 +360,8 @@ export function EnrollFormAdvanced({
                     <FormField
                       type="text"
                       name="compFinName"
-                      placeholder="Nome do Responsável Financeiro da sua empresa *"
+                      label="Nome do Responsável Financeiro"
+                      placeholder="Escreva o nome..."
                       value={formData.compFinName ?? ""}
                       onChange={(e) => {
                         handleInputChange(e);
@@ -375,7 +380,8 @@ export function EnrollFormAdvanced({
                     <FormField
                       type="text"
                       name="company"
-                      placeholder="Nome da Empresa *"
+                      label="Nome da Empresa"
+                      placeholder="Ex: Empresa LTDA"
                       value={formData.company}
                       onChange={(e) => {
                         handleInputChange(e);
@@ -394,7 +400,8 @@ export function EnrollFormAdvanced({
                   <FormField
                     type="email"
                     name="compFinEmail"
-                    placeholder="E-mail do Responsável Financeiro da sua empresa *"
+                    label="E-mail do Responsável Financeiro"
+                    placeholder="email@empresa.com"
                     value={formData.compFinEmail ?? ""}
                     onChange={(e) => {
                       handleInputChange(e);
@@ -509,7 +516,8 @@ export function EnrollFormAdvanced({
                       <FormField
                         type="text"
                         name="addName"
-                        placeholder="Nome completo *"
+                        label="Nome completo"
+                        placeholder="Escreva o nome..."
                         value={formParticipant.addName}
                         onChange={(e) => {
                           setFormParticipant({ addName: e.target.value });
@@ -526,7 +534,8 @@ export function EnrollFormAdvanced({
                       <FormField
                         type="text"
                         name="role"
-                        placeholder="Cargo/Função *"
+                        label="Cargo/Função"
+                        placeholder="Ex: Gerente"
                         value={formParticipant.role}
                         onChange={(e) => {
                           setFormParticipant({ role: e.target.value });
@@ -546,7 +555,8 @@ export function EnrollFormAdvanced({
                       <FormField
                         type="email"
                         name="email"
-                        placeholder="E-mail corporativo *"
+                        label="E-mail corporativo"
+                        placeholder="email@empresa.com"
                         value={formParticipant.email}
                         onChange={(e) => {
                           setFormParticipant({ email: e.target.value });
@@ -563,7 +573,8 @@ export function EnrollFormAdvanced({
                       <FormField
                         type="tel"
                         name="phone"
-                        placeholder="Telefone *"
+                        label="Telefone"
+                        placeholder="(00) 00000-0000"
                         value={formParticipant.phone}
                         onChange={(e) => {
                           setFormParticipant({ phone: e.target.value });

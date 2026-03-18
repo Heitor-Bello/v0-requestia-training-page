@@ -10,7 +10,8 @@ import {
 interface FormFieldProps {
   type?: "text" | "email" | "tel";
   name: string;
-  placeholder: string;
+  label: string;
+  placeholder?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   validation?: ValidationType;
@@ -23,6 +24,7 @@ interface FormFieldProps {
 export function FormField({
   type = "text",
   name,
+  label,
   placeholder,
   value,
   onChange,
@@ -34,6 +36,7 @@ export function FormField({
 }: FormFieldProps) {
   const [error, setError] = useState<string | undefined>();
   const [touched, setTouched] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const validate = useCallback(
     (val: string) => {
@@ -51,7 +54,12 @@ export function FormField({
     [validation],
   );
 
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
   const handleBlur = () => {
+    setIsFocused(false);
     setTouched(true);
     validate(value);
   };
@@ -77,24 +85,57 @@ export function FormField({
   const displayError = externalError || (touched ? error : undefined);
   const hasError = !!displayError;
 
-  const baseClasses =
-    "w-full px-4 py-2 border rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition";
-  const normalClasses = "border-gray-300 focus:ring-[#0D5B9C]";
-  const errorClasses = "border-red-500 focus:ring-red-500 bg-red-50";
+  // Label should float when focused or has value
+  const shouldFloat = isFocused || value.length > 0;
 
   return (
-    <div className="w-full">
+    <div className={`relative w-full ${className}`}>
+      {/* Floating Label */}
+      <label
+        htmlFor={name}
+        className={`
+          absolute left-3 bg-white px-1 transition-all duration-200 pointer-events-none
+          ${shouldFloat 
+            ? "-top-2.5 text-xs" 
+            : "top-1/2 -translate-y-1/2 text-sm"
+          }
+          ${hasError 
+            ? "text-red-500" 
+            : isFocused 
+              ? "text-[#0D5B9C]" 
+              : "text-gray-500"
+          }
+        `}
+      >
+        {label}{required && " *"}
+      </label>
+
+      {/* Input */}
       <input
+        id={name}
         type={type}
         name={name}
-        placeholder={placeholder}
+        placeholder={shouldFloat ? placeholder : ""}
         value={value}
         onChange={handleChange}
+        onFocus={handleFocus}
         onBlur={handleBlur}
         required={required}
-        className={`${baseClasses} ${hasError ? errorClasses : normalClasses} ${className}`}
+        className={`
+          w-full px-4 py-3 border rounded-lg text-sm text-gray-900
+          focus:outline-none focus:ring-2 focus:border-transparent transition-all
+          ${hasError 
+            ? "border-red-500 focus:ring-red-500 bg-red-50" 
+            : "border-gray-300 focus:ring-[#0D5B9C] focus:border-[#0D5B9C]"
+          }
+          ${shouldFloat ? "placeholder-gray-400" : "placeholder-transparent"}
+        `}
       />
-      {hasError && <p className="mt-1 text-xs text-red-500">{displayError}</p>}
+
+      {/* Error Message */}
+      {hasError && (
+        <p className="mt-1 text-xs text-red-500">{displayError}</p>
+      )}
     </div>
   );
 }

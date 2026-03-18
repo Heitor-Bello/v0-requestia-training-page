@@ -64,7 +64,8 @@ export function EnrollFormEssentials({
                 <FormField
                   type="text"
                   name="fullName"
-                  placeholder="Nome completo *"
+                  label="Nome completo"
+                  placeholder="Escreva seu nome..."
                   value={formData.fullName}
                   onChange={handleInputChange}
                   validation="name"
@@ -77,7 +78,8 @@ export function EnrollFormEssentials({
                 <FormField
                   type="text"
                   name="role"
-                  placeholder="Cargo/Função *"
+                  label="Cargo/Função"
+                  placeholder="Ex: Gerente"
                   value={formData.role}
                   onChange={handleInputChange}
                   validation="textOnly"
@@ -86,7 +88,8 @@ export function EnrollFormEssentials({
                 <FormField
                   type="text"
                   name="company"
-                  placeholder="Nome da Empresa *"
+                  label="Nome da Empresa"
+                  placeholder="Ex: Empresa LTDA"
                   value={formData.company}
                   onChange={handleInputChange}
                   validation="required"
@@ -99,7 +102,8 @@ export function EnrollFormEssentials({
                 <FormField
                   type="email"
                   name="email"
-                  placeholder="E-mail corporativo *"
+                  label="E-mail corporativo"
+                  placeholder="seu@empresa.com"
                   value={formData.email}
                   onChange={handleInputChange}
                   validation="email"
@@ -108,7 +112,8 @@ export function EnrollFormEssentials({
                 <FormField
                   type="tel"
                   name="phone"
-                  placeholder="Telefone *"
+                  label="Telefone"
+                  placeholder="(00) 00000-0000"
                   value={formData.phone}
                   onChange={handleInputChange}
                   validation="phone"
