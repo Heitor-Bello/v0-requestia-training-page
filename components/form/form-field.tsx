@@ -97,19 +97,20 @@ export function FormField({
         className={`
           absolute left-3 px-1 transition-all duration-200 pointer-events-none
           whitespace-nowrap overflow-hidden text-ellipsis max-w-[calc(100%-24px)]
-          ${shouldFloat 
-            ? "-top-2.5 text-xs bg-white" 
+          ${shouldFloat
+            ? "-top-2.5 text-xs bg-white"
             : "top-1/2 -translate-y-1/2 text-sm bg-transparent"
           }
-          ${hasError 
-            ? "text-red-500" 
-            : isFocused 
-              ? "text-[#0D5B9C]" 
+          ${hasError
+            ? "text-red-500"
+            : isFocused
+              ? "text-[#0D5B9C]"
               : "text-gray-500"
           }
         `}
       >
-        {label}{required && " *"}
+        {label}
+        {required && " *"}
       </label>
 
       {/* Input */}
@@ -126,8 +127,8 @@ export function FormField({
         className={`
           w-full px-4 py-3 border rounded-lg text-sm text-gray-900
           focus:outline-none focus:ring-2 focus:border-transparent transition-all
-          ${hasError 
-            ? "border-red-500 focus:ring-red-500 bg-red-50" 
+          ${hasError
+            ? "border-red-500 focus:ring-red-500 bg-red-50"
             : "border-gray-300 focus:ring-[#0D5B9C] focus:border-[#0D5B9C]"
           }
           ${shouldFloat ? "placeholder-gray-400" : "placeholder-transparent"}
@@ -135,9 +136,7 @@ export function FormField({
       />
 
       {/* Error Message */}
-      {hasError && (
-        <p className="mt-1 text-xs text-red-500">{displayError}</p>
-      )}
+      {hasError && <p className="mt-1 text-xs text-red-500">{displayError}</p>}
     </div>
   );
 }
