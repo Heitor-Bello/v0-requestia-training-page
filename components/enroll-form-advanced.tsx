@@ -499,7 +499,9 @@ export function EnrollFormAdvanced({
                 ) : isAddingParticipant ? (
                   <div className="border rounded-lg p-4 space-y-4">
                     <h5 className="font-semibold text-[#00233f]">
-                      Participante adicional {additionalParticipants.length + 1}
+                      {editingParticipantId
+                        ? `Editando participante adicional ${additionalParticipants.findIndex((p) => p.id === editingParticipantId) + 1}`
+                        : `Participante adicional ${additionalParticipants.length + 1}`}
                     </h5>
 
                     {/* Form fields */}
