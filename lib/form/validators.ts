@@ -1,3 +1,8 @@
+import {
+  EMAIL_DOMAIN_BLACKLIST,
+  VALIDATION_MESSAGES,
+} from "@/lib/constants";
+
 export interface ValidationResult {
   isValid: boolean;
   error?: string;
@@ -6,7 +11,7 @@ export interface ValidationResult {
 // Validação de nome (apenas letras, espaços e acentos)
 export function validateName(value: string): ValidationResult {
   if (!value.trim()) {
-    return { isValid: false, error: "Campo obrigatório" };
+    return { isValid: false, error: VALIDATION_MESSAGES.required };
   }
 
   // Regex para aceitar apenas letras (incluindo acentuadas), espços e hífens
@@ -23,36 +28,16 @@ export function validateName(value: string): ValidationResult {
   return { isValid: true };
 }
 
-// Blacklist de domínios de e-mail pessoais (não institucionais)
-const EMAIL_DOMAIN_BLACKLIST = [
-  "gmail.com",
-  "yahoo.com",
-  "ymail.com",
-  "yahoo.com.br",
-  "google.com",
-  "mailsphere.xyz",
-  "hotmail.com",
-  "outlook.com",
-  "live.com",
-  "bol.com",
-  "uol.com",
-  "terra.com",
-  "ig.com",
-  "icloud.com",
-  "deskmanager.com",
-  "qualitor.com",
-];
-
 // Validação para e-mail (corporativo/institucional)
 export function validateEmail(value: string): ValidationResult {
   if (!value.trim()) {
-    return { isValid: false, error: "Campo obrigatório" };
+    return { isValid: false, error: VALIDATION_MESSAGES.required };
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (!emailRegex.test(value)) {
-    return { isValid: false, error: "E-mail inválido" };
+    return { isValid: false, error: VALIDATION_MESSAGES.invalidEmail };
   }
 
   // Extrai o domínio do e-mail e verifica na blacklist
@@ -60,7 +45,7 @@ export function validateEmail(value: string): ValidationResult {
   if (domain && EMAIL_DOMAIN_BLACKLIST.includes(domain)) {
     return {
       isValid: false,
-      error: "Por favor, utilize um e-mail corporativo",
+      error: VALIDATION_MESSAGES.corporateEmailRequired,
     };
   }
 
@@ -182,7 +167,7 @@ export function validateAdditionalParticipant(participant: {
   if (!roleResult.isValid) errors.role = roleResult.error!;
 
   if (participant.isPCD === null) {
-    errors.isPCD = "Por favor, selecione uma opção de PCD";
+    errors.isPCD = VALIDATION_MESSAGES.pcdRequired;
   }
 
   return errors;
@@ -223,7 +208,7 @@ export function validateAdvancedForm(formData: {
   if (!compFinEmailResult.isValid) errors.compFinEmail = compFinEmailResult.error!;
 
   if (formData.isPCD === null) {
-    errors.isPCD = "Por favor, selecione uma opção de PCD";
+    errors.isPCD = VALIDATION_MESSAGES.pcdRequired;
   }
 
   return errors;
