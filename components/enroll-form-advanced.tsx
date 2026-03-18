@@ -178,7 +178,7 @@ export function EnrollFormAdvanced({
             <button
               type="button"
               onClick={toggleParticipantData}
-              className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity"
+              className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity cursor-pointer"
             >
               <h4 className="text-normal font-normal text-[#00233f]">
                 Dados do participante
@@ -336,7 +336,7 @@ export function EnrollFormAdvanced({
             <button
               type="button"
               onClick={toggleCompanyData}
-              className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity"
+              className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity cursor-pointer"
             >
               <h4 className="text-normal font-normal text-[#00233f]">
                 Dados da empresa
@@ -418,7 +418,7 @@ export function EnrollFormAdvanced({
             <button
               type="button"
               onClick={toggleAddParticipant}
-              className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity"
+              className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity cursor-pointer"
             >
               <h4 className="text-normal font-normal text-[#00233f]">
                 Participantes adicionais
@@ -492,7 +492,7 @@ export function EnrollFormAdvanced({
                   <button
                     type="button"
                     onClick={handleAddParticipant}
-                    className="w-full py-3 text-sm text-center text-gray-500 border border-dashed border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="w-full py-3 text-sm text-center text-gray-500 border border-dashed border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer"
                   >
                     Adicionar participantes (máximo {remainingSlots})
                   </button>
