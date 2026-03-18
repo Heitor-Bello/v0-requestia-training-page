@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/form-field";
 import type { EnrollFormEssentialsProps } from "@/types/enrollment";
 
 export function EnrollFormEssentials({

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Edit2, Trash2, Loader2 } from "lucide-react";
 import { Input } from "./ui/input";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/form-field";
 import { useAdditionalParticipants } from "@/hooks/use-additional-participants";
 import type {
   AdvancedFormData,
@@ -36,6 +36,8 @@ export function EnrollFormAdvanced({
   // PCD states
   const [isPCDNeeded, setIsPCDNeeded] = useState<boolean | null>(null);
   const [pcdDescription, setPCDDescription] = useState("");
+  const [pcdError, setPcdError] = useState<string | null>(null);
+  const [participantPcdError, setParticipantPcdError] = useState<string | null>(null);
 
   // Additional participants hook
   const {
@@ -44,20 +46,52 @@ export function EnrollFormAdvanced({
     formData: formParticipant,
     editingId: editingParticipantId,
     handleAdd: handleAddParticipant,
-    handleCancel,
-    handleSave: handleSaveParticipant,
+    handleCancel: handleCancelParticipant,
+    handleSave: saveParticipant,
     handleEdit,
     handleDelete,
     handleFormChange: setFormParticipant,
+    validatePCD: validateParticipantPCD,
   } = useAdditionalParticipants((participants) => {
     onFormDataChange({ ...formData, additionalParticipants: participants });
   });
+
+  const handleCancel = () => {
+    setParticipantPcdError(null);
+    handleCancelParticipant();
+  };
+
+  const handleSaveParticipant = () => {
+    const pcdValidationError = validateParticipantPCD();
+    if (pcdValidationError) {
+      setParticipantPcdError(pcdValidationError);
+      return;
+    }
+    setParticipantPcdError(null);
+    saveParticipant();
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     onFormDataChange({ ...formData, [name]: value });
+  };
+
+  const validateAndSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate PCD selection
+    if (isPCDNeeded === null) {
+      setPcdError("Por favor, selecione uma opção de PCD");
+      return;
+    }
+    
+    // Clear error if valid
+    setPcdError(null);
+    
+    // Call the original onSubmit
+    onSubmit(e);
   };
 
   const handleEditParticipant = (participant: AdditionalParticipantWithId) => {
@@ -82,7 +116,7 @@ export function EnrollFormAdvanced({
 
       {/* Scrollable Form Content */}
       <div className="flex-1 overflow-y-auto no-scrollbar p-6">
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={validateAndSubmit} className="space-y-4">
           {/* Participant Data Section */}
           <div className="mb-6 border-b pb-4">
             <button
@@ -169,6 +203,7 @@ export function EnrollFormAdvanced({
                       checked={isPCDNeeded === true}
                       onChange={() => {
                         setIsPCDNeeded(true);
+                        setPcdError(null);
                         onFormDataChange({ ...formData, isPCD: true });
                       }}
                       className="w-4 h-4 cursor-pointer"
@@ -184,6 +219,7 @@ export function EnrollFormAdvanced({
                       checked={isPCDNeeded === false}
                       onChange={() => {
                         setIsPCDNeeded(false);
+                        setPcdError(null);
                         setPCDDescription("");
                         onFormDataChange({
                           ...formData,
@@ -196,6 +232,9 @@ export function EnrollFormAdvanced({
                     <span className="text-sm text-[#212121]">Não</span>
                   </label>
                 </div>
+                {pcdError && (
+                  <p className="text-xs text-red-500 mt-1">{pcdError}</p>
+                )}
 
                 {/* PCD Description */}
                 <Input
@@ -242,7 +281,7 @@ export function EnrollFormAdvanced({
                       type="text"
                       name="compFinName"
                       placeholder="Nome do Responsável Financeiro da sua empresa *"
-                      value={formData.compFinName}
+                      value={formData.compFinName ?? ""}
                       onChange={handleInputChange}
                       validation="name"
                       required
@@ -267,7 +306,7 @@ export function EnrollFormAdvanced({
                     type="email"
                     name="compFinEmail"
                     placeholder="E-mail do Responsável Financeiro da sua empresa *"
-                    value={formData.compFinEmail}
+                    value={formData.compFinEmail ?? ""}
                     onChange={handleInputChange}
                     validation="email"
                     required
@@ -430,7 +469,10 @@ export function EnrollFormAdvanced({
                           <input
                             type="radio"
                             checked={formParticipant.isPCD === true}
-                            onChange={() => setFormParticipant({ isPCD: true })}
+                            onChange={() => {
+                              setFormParticipant({ isPCD: true });
+                              setParticipantPcdError(null);
+                            }}
                             className="w-4 h-4 cursor-pointer"
                           />
                           <span className="text-sm text-[#212121]">
@@ -441,14 +483,18 @@ export function EnrollFormAdvanced({
                           <input
                             type="radio"
                             checked={formParticipant.isPCD === false}
-                            onChange={() =>
-                              setFormParticipant({ isPCD: false })
-                            }
+                            onChange={() => {
+                              setFormParticipant({ isPCD: false });
+                              setParticipantPcdError(null);
+                            }}
                             className="w-4 h-4 cursor-pointer"
                           />
                           <span className="text-sm text-[#212121]">Não</span>
                         </label>
                       </div>
+                      {participantPcdError && (
+                        <p className="text-xs text-red-500 mt-1">{participantPcdError}</p>
+                      )}
 
                       <Input
                         type="text"

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X, MessageSquareWarning, Loader2 } from "lucide-react";
 import { FeedbackState, feedbackConfig } from "@/components/feedback";
-import { FormField } from "@/components/form";
+import { FormField } from "@/components/form/form-field";
 import { useContactForm } from "@/hooks/use-contact-form";
 
 export function ContactModal() {
