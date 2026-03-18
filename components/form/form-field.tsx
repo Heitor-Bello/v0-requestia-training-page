@@ -85,8 +85,8 @@ export function FormField({
   const displayError = externalError || (touched ? error : undefined);
   const hasError = !!displayError;
 
-  // Label should float when focused or has value
-  const shouldFloat = isFocused || value.length > 0;
+  // Label should float when focused or has value, but NOT when there's an error and no value
+  const shouldFloat = (isFocused || value.length > 0) && !(hasError && value.length === 0);
 
   return (
     <div className={`relative w-full ${className}`}>
@@ -94,10 +94,11 @@ export function FormField({
       <label
         htmlFor={name}
         className={`
-          absolute left-3 bg-white px-1 transition-all duration-200 pointer-events-none
+          absolute left-3 px-1 transition-all duration-200 pointer-events-none
+          whitespace-nowrap overflow-hidden text-ellipsis max-w-[calc(100%-24px)]
           ${shouldFloat 
-            ? "-top-2.5 text-xs" 
-            : "top-1/2 -translate-y-1/2 text-sm"
+            ? "-top-2.5 text-xs bg-white" 
+            : "top-1/2 -translate-y-1/2 text-sm bg-transparent"
           }
           ${hasError 
             ? "text-red-500" 
