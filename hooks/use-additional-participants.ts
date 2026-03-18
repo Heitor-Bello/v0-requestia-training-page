@@ -40,11 +40,14 @@ interface UseAdditionalParticipantsReturn {
 }
 
 export function useAdditionalParticipants(
-  onParticipantsChange?: (participants: AdditionalParticipant[]) => void
+  onParticipantsChange?: (participants: AdditionalParticipant[]) => void,
 ): UseAdditionalParticipantsReturn {
-  const [participants, setParticipants] = useState<AdditionalParticipantWithId[]>([]);
+  const [participants, setParticipants] = useState<
+    AdditionalParticipantWithId[]
+  >([]);
   const [isAdding, setIsAdding] = useState(false);
-  const [formData, setFormData] = useState<ParticipantFormData>(initialFormData);
+  const [formData, setFormData] =
+    useState<ParticipantFormData>(initialFormData);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   // Converte participantes com ID para formato de envio
@@ -59,7 +62,7 @@ export function useAdditionalParticipants(
         pcdDescription: p.pcdDescription,
       }));
     },
-    []
+    [],
   );
 
   const handleAdd = useCallback(() => {
@@ -80,7 +83,7 @@ export function useAdditionalParticipants(
     if (editingId) {
       // Atualizar existente
       updatedParticipants = participants.map((p) =>
-        p.id === editingId ? { ...p, ...formData } : p
+        p.id === editingId ? { ...p, ...formData } : p,
       );
       setEditingId(null);
     } else {
@@ -100,7 +103,13 @@ export function useAdditionalParticipants(
     onParticipantsChange?.(participantList);
 
     return participantList;
-  }, [editingId, formData, participants, toParticipantList, onParticipantsChange]);
+  }, [
+    editingId,
+    formData,
+    participants,
+    toParticipantList,
+    onParticipantsChange,
+  ]);
 
   const handleEdit = useCallback((participant: AdditionalParticipantWithId) => {
     setEditingId(participant.id);
@@ -126,7 +135,7 @@ export function useAdditionalParticipants(
 
       return participantList;
     },
-    [participants, toParticipantList, onParticipantsChange]
+    [participants, toParticipantList, onParticipantsChange],
   );
 
   const handleFormChange = useCallback((data: Partial<ParticipantFormData>) => {

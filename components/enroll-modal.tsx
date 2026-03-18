@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEnrollment } from "@/contexts/enrollment-context";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   ArrowLeft,
@@ -17,11 +16,7 @@ import {
 } from "lucide-react";
 import { EnrollFormEssentials } from "@/components/enroll-form-essentials";
 import { EnrollFormAdvanced } from "@/components/enroll-form-advanced";
-import type {
-  TrainingSession,
-  EnrollModalProps,
-  AdvancedFormData,
-} from "@/types/enrollment";
+import type { EnrollModalProps, AdvancedFormData } from "@/types/enrollment";
 
 export function EnrollModal({
   isOpen,
@@ -288,7 +283,7 @@ export function EnrollModal({
         />
       );
     }
-    
+
     // Foundations and Expert use the same advanced form
     return (
       <EnrollFormAdvanced
@@ -310,7 +305,7 @@ export function EnrollModal({
         <div className="p-8 pb-2 flex items-center gap-3">
           <button
             onClick={onClose}
-            className="text-[#0D5B9C] hover:text-[#0D5B9C]/80 flex items-center gap-1"
+            className="cursor-pointer text-[#0D5B9C] hover:text-[#0D5B9C]/80 flex items-center gap-1"
           >
             <ArrowLeft className="w-5 h-5" />
             <span className="text-sm font-normal">

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormInput } from "./FormInput";
+import { FormInput } from "./form-input";
 
 interface PCDSectionProps {
   isPCD: boolean | null;

@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Edit2, Trash2, Plus } from "lucide-react";
-import { FormInput } from "./FormInput";
-import { PCDSection } from "./PCDSection";
+import { FormInput } from "./form-input";
+import { PCDSection } from "./pcd-section";
 import type { AdditionalParticipantWithId } from "@/types/enrollment";
 
 interface ParticipantFormData {

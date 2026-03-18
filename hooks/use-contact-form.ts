@@ -30,7 +30,7 @@ export function useContactForm() {
         [name]: value,
       }));
     },
-    []
+    [],
   );
 
   const handleSubmit = useCallback(
@@ -60,7 +60,7 @@ export function useContactForm() {
         setStatus("error");
       }
     },
-    [formData, status]
+    [formData, status],
   );
 
   const reset = useCallback(() => {
