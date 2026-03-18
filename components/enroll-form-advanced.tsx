@@ -38,6 +38,34 @@ export function EnrollFormAdvanced({
   const [isAddParticipantExpanded, setIsAddParticipantExpanded] =
     useState(false);
 
+  // Accordion behavior - only one section open at a time
+  const toggleParticipantData = () => {
+    const newState = !isParticipantDataExpanded;
+    setIsParticipantDataExpanded(newState);
+    if (newState) {
+      setIsCompanyDataExpanded(false);
+      setIsAddParticipantExpanded(false);
+    }
+  };
+
+  const toggleCompanyData = () => {
+    const newState = !isCompanyDataExpanded;
+    setIsCompanyDataExpanded(newState);
+    if (newState) {
+      setIsParticipantDataExpanded(false);
+      setIsAddParticipantExpanded(false);
+    }
+  };
+
+  const toggleAddParticipant = () => {
+    const newState = !isAddParticipantExpanded;
+    setIsAddParticipantExpanded(newState);
+    if (newState) {
+      setIsParticipantDataExpanded(false);
+      setIsCompanyDataExpanded(false);
+    }
+  };
+
   // PCD states
   const [isPCDNeeded, setIsPCDNeeded] = useState<boolean | null>(null);
   const [pcdDescription, setPCDDescription] = useState("");
@@ -149,9 +177,7 @@ export function EnrollFormAdvanced({
           <div className="mb-6 border-b pb-4">
             <button
               type="button"
-              onClick={() =>
-                setIsParticipantDataExpanded(!isParticipantDataExpanded)
-              }
+              onClick={toggleParticipantData}
               className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity"
             >
               <h4 className="text-normal font-normal text-[#00233f]">
@@ -309,7 +335,7 @@ export function EnrollFormAdvanced({
           <div className="mb-6 border-b pb-4">
             <button
               type="button"
-              onClick={() => setIsCompanyDataExpanded(!isCompanyDataExpanded)}
+              onClick={toggleCompanyData}
               className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity"
             >
               <h4 className="text-normal font-normal text-[#00233f]">
@@ -391,9 +417,7 @@ export function EnrollFormAdvanced({
           <div className="mb-6">
             <button
               type="button"
-              onClick={() =>
-                setIsAddParticipantExpanded(!isAddParticipantExpanded)
-              }
+              onClick={toggleAddParticipant}
               className="w-full flex items-center justify-between py-2 hover:opacity-80 transition-opacity"
             >
               <h4 className="text-normal font-normal text-[#00233f]">
