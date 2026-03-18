@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { X, MessageSquareWarning, Loader2 } from "lucide-react";
 import { FeedbackState, feedbackConfig } from "@/components/feedback";
-import { useContactForm } from "@/hooks/useContactForm";
+import { useContactForm } from "@/hooks/use-contact-form";
 
 export function ContactModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -85,7 +85,7 @@ interface ContactFormProps {
   };
   isSubmitting: boolean;
   onInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
@@ -112,7 +112,10 @@ function ContactForm({
       </p>
 
       {/* Form */}
-      <form onSubmit={onSubmit} className="space-y-3 w-full flex flex-col flex-1">
+      <form
+        onSubmit={onSubmit}
+        className="space-y-3 w-full flex flex-col flex-1"
+      >
         {/* Full Name Input */}
         <input
           type="text"

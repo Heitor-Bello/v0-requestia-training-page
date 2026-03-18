@@ -202,7 +202,7 @@ export default function Home() {
                 <div key={level.id} className="relative flex items-center">
                   <button
                     onClick={() => setSelectedLevel(level.id)}
-                    className={`relative z-10 px-5 py-2 rounded-full text-base sm:text-xl font-regular transition-all
+                    className={`cursor-pointer relative z-10 px-5 py-2 rounded-full text-base sm:text-xl font-regular transition-all
             ${selectedLevel === level.id
                         ? "bg-[#0D5B9C] text-white"
                         : "bg-[#CBDDEF] text-white/70 hover:bg-[#ACC8E4]"
@@ -314,7 +314,7 @@ export default function Home() {
                 {/* Enroll button */}
                 <Button
                   onClick={() => openEnrollModal()}
-                  className="w-full px-6 py-2 bg-white border-2 border-[#e35205] text-[#e35205] hover:bg-[#e35205]/5 font-regular"
+                  className="cursor-pointer w-full px-6 py-[12px] min-h-[45px] bg-white border-2 border-[#e35205] text-[#E35205] hover:bg-[#e35205]/5 font-semibold text-lg leading-[140%]"
                 >
                   Inscrever-se
                 </Button>
@@ -378,7 +378,7 @@ export default function Home() {
                         duration: "3 dias intensivos",
                       })
                     }
-                    className="w-full px-6 py-3 bg-white border-2 border-[#e35205] text-[#e35205] hover:bg-[#e35205]/5 font-semibold text-base"
+                    className="cursor-pointer w-full px-6 py-[12px] min-h-[45px] bg-white border-2 border-[#e35205] text-[#E35205] hover:bg-[#e35205]/5 font-semibold text-lg leading-[140%]"
                   >
                     Inscrever-se
                   </Button>
@@ -392,7 +392,7 @@ export default function Home() {
                     <div className="flex-1">
                       <p className="font-regular text-gray-600">
                         {" "}
-                        <b>1 a 3 de setembro</b> | Terça a quinta-feira
+                        <b>14 a 16 de setembro</b> | Segunda a quarta-feira
                       </p>
                     </div>
                     <button>
@@ -439,7 +439,7 @@ export default function Home() {
                         duration: "3 dias intensivos",
                       })
                     }
-                    className="w-full px-6 py-3 bg-white border-2 border-[#e35205] text-[#e35205] hover:bg-[#e35205]/5 font-semibold text-base"
+                    className="cursor-pointer w-full px-6 py-[12px] min-h-[45px] bg-white border-2 border-[#e35205] text-[#E35205] hover:bg-[#e35205]/5 font-semibold text-lg leading-[140%]"
                   >
                     Inscrever-se
                   </Button>
@@ -455,7 +455,7 @@ export default function Home() {
                   <div className="flex-1">
                     <p className="font-regular text-gray-600">
                       {" "}
-                      <b>03 a 05 de novembro</b> | Terça a quinta-feira
+                      <b>09 a 11 de novembro</b> | Segunda a quarta-feira
                     </p>
                   </div>
                   <button>
@@ -493,7 +493,7 @@ export default function Home() {
                 {/* Enroll button */}
                 <Button
                   onClick={() => openEnrollModal()}
-                  className="w-full px-6 py-3 bg-white border-2 border-[#e35205] text-[#e35205] hover:bg-[#e35205]/5 font-semibold text-base"
+                  className="cursor-pointer w-full px-6 py-[12px] min-h-[45px] bg-white border-2 border-[#e35205] text-[#E35205] hover:bg-[#e35205]/5 font-semibold text-lg leading-[140%]"
                 >
                   Inscrever-se
                 </Button>
