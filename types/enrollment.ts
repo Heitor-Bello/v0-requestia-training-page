@@ -54,13 +54,17 @@ export interface LevelDisplayInfo {
 // ============================================
 
 // Participante adicional base
-export interface AdditionalParticipant extends PersonContact, AccessibilityData {
+export interface AdditionalParticipant
+  extends PersonContact, AccessibilityData {
   addName: string;
   role: string;
 }
 
 // Participante adicional com ID (usado internamente nos formulários)
-export interface AdditionalParticipantWithId extends Omit<AdditionalParticipant, "isPCD" | "pcdDescription"> {
+export interface AdditionalParticipantWithId extends Omit<
+  AdditionalParticipant,
+  "isPCD" | "pcdDescription"
+> {
   id: string;
   company: string;
   isPCD: boolean | null;
@@ -93,7 +97,7 @@ export interface AdvancedFormFields extends AccessibilityData {
 }
 
 // Dados do formulário Foundations/Expert
-export interface AdvancedFormData extends BaseFormData, AdvancedFormFields {}
+export interface AdvancedFormData extends BaseFormData, AdvancedFormFields { }
 
 // ============================================
 // DADOS DE CONFIRMAÇÃO
@@ -101,11 +105,12 @@ export interface AdvancedFormData extends BaseFormData, AdvancedFormFields {}
 
 // Dados de confirmação exibidos na página de confirmação
 export interface ConfirmationData
-  extends LevelDisplayInfo,
-    Pick<TrainingSession, "date" | "location" | "duration">,
-    PersonContact,
-    PersonProfessional,
-    AccessibilityData {
+  extends
+  LevelDisplayInfo,
+  Pick<TrainingSession, "date" | "location" | "duration">,
+  PersonContact,
+  PersonProfessional,
+  AccessibilityData {
   certification: string;
   fullName: string;
   compFinName?: string;
