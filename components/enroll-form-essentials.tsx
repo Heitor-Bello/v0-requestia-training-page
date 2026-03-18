@@ -134,7 +134,7 @@ export function EnrollFormEssentials({
               checked={formData.agreePrivacy}
               onChange={handleInputChange}
               required
-              className="mt-1 w-4 h-4 rounded border-gray-300 text-[#0D5B9C] cursor-pointer"
+              className="mt-1 w-4 h-4 rounded border-gray-300 accent-[#0D5B9C] cursor-pointer"
             />
             <label className="text-xs text-[#5F7990] cursor-pointer">
               Ao enviar este formulário, concordo com a utilização de todos
