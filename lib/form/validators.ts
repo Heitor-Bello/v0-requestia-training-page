@@ -124,3 +124,78 @@ export function formatPhone(value: string): string {
   }
   return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
 }
+
+// Interface para erros de campo
+export interface FieldErrors {
+  [key: string]: string;
+}
+
+// Validar participante adicional
+export function validateAdditionalParticipant(participant: {
+  addName: string;
+  email: string;
+  phone: string;
+  role: string;
+  isPCD: boolean | null;
+}): FieldErrors {
+  const errors: FieldErrors = {};
+
+  const nameResult = validateName(participant.addName);
+  if (!nameResult.isValid) errors.addName = nameResult.error!;
+
+  const emailResult = validateEmail(participant.email);
+  if (!emailResult.isValid) errors.email = emailResult.error!;
+
+  const phoneResult = validatePhone(participant.phone);
+  if (!phoneResult.isValid) errors.phone = phoneResult.error!;
+
+  const roleResult = validateTextOnly(participant.role);
+  if (!roleResult.isValid) errors.role = roleResult.error!;
+
+  if (participant.isPCD === null) {
+    errors.isPCD = "Por favor, selecione uma opção de PCD";
+  }
+
+  return errors;
+}
+
+// Validar formulário principal (Advanced - Foundations/Expert)
+export function validateAdvancedForm(formData: {
+  fullName: string;
+  email: string;
+  phone: string;
+  role: string;
+  company: string;
+  compFinName: string;
+  compFinEmail: string;
+  isPCD: boolean | null;
+}): FieldErrors {
+  const errors: FieldErrors = {};
+
+  const fullNameResult = validateName(formData.fullName);
+  if (!fullNameResult.isValid) errors.fullName = fullNameResult.error!;
+
+  const emailResult = validateEmail(formData.email);
+  if (!emailResult.isValid) errors.email = emailResult.error!;
+
+  const phoneResult = validatePhone(formData.phone);
+  if (!phoneResult.isValid) errors.phone = phoneResult.error!;
+
+  const roleResult = validateTextOnly(formData.role);
+  if (!roleResult.isValid) errors.role = roleResult.error!;
+
+  const companyResult = validateRequired(formData.company, "Empresa");
+  if (!companyResult.isValid) errors.company = companyResult.error!;
+
+  const compFinNameResult = validateName(formData.compFinName);
+  if (!compFinNameResult.isValid) errors.compFinName = compFinNameResult.error!;
+
+  const compFinEmailResult = validateEmail(formData.compFinEmail);
+  if (!compFinEmailResult.isValid) errors.compFinEmail = compFinEmailResult.error!;
+
+  if (formData.isPCD === null) {
+    errors.isPCD = "Por favor, selecione uma opção de PCD";
+  }
+
+  return errors;
+}

@@ -6,6 +6,11 @@ import { ChevronDown, ChevronUp, Edit2, Trash2, Loader2 } from "lucide-react";
 import { Input } from "./ui/input";
 import { FormField } from "@/components/form/form-field";
 import { useAdditionalParticipants } from "@/hooks/use-additional-participants";
+import {
+  validateAdvancedForm,
+  validateAdditionalParticipant,
+  type FieldErrors,
+} from "@/lib/form/validators";
 import type {
   AdvancedFormData,
   Level,
@@ -36,8 +41,10 @@ export function EnrollFormAdvanced({
   // PCD states
   const [isPCDNeeded, setIsPCDNeeded] = useState<boolean | null>(null);
   const [pcdDescription, setPCDDescription] = useState("");
-  const [pcdError, setPcdError] = useState<string | null>(null);
-  const [participantPcdError, setParticipantPcdError] = useState<string | null>(null);
+  
+  // Form validation errors
+  const [formErrors, setFormErrors] = useState<FieldErrors>({});
+  const [participantErrors, setParticipantErrors] = useState<FieldErrors>({});
 
   // Additional participants hook
   const {
@@ -51,23 +58,22 @@ export function EnrollFormAdvanced({
     handleEdit,
     handleDelete,
     handleFormChange: setFormParticipant,
-    validatePCD: validateParticipantPCD,
   } = useAdditionalParticipants((participants) => {
     onFormDataChange({ ...formData, additionalParticipants: participants });
   });
 
   const handleCancel = () => {
-    setParticipantPcdError(null);
+    setParticipantErrors({});
     handleCancelParticipant();
   };
 
   const handleSaveParticipant = () => {
-    const pcdValidationError = validateParticipantPCD();
-    if (pcdValidationError) {
-      setParticipantPcdError(pcdValidationError);
+    const errors = validateAdditionalParticipant(formParticipant);
+    if (Object.keys(errors).length > 0) {
+      setParticipantErrors(errors);
       return;
     }
-    setParticipantPcdError(null);
+    setParticipantErrors({});
     saveParticipant();
   };
 
@@ -81,16 +87,32 @@ export function EnrollFormAdvanced({
   const validateAndSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate PCD selection
-    if (isPCDNeeded === null) {
-      setPcdError("Por favor, selecione uma opção de PCD");
+    // Validate all form fields
+    const errors = validateAdvancedForm({
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      role: formData.role,
+      company: formData.company,
+      compFinName: formData.compFinName,
+      compFinEmail: formData.compFinEmail,
+      isPCD: isPCDNeeded,
+    });
+    
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      // Expand sections with errors
+      if (errors.fullName || errors.email || errors.phone || errors.role || errors.isPCD) {
+        setIsParticipantDataExpanded(true);
+      }
+      if (errors.company || errors.compFinName || errors.compFinEmail) {
+        setIsCompanyDataExpanded(true);
+      }
       return;
     }
     
-    // Clear error if valid
-    setPcdError(null);
-    
-    // Call the original onSubmit
+    // Clear errors and submit
+    setFormErrors({});
     onSubmit(e);
   };
 
@@ -145,8 +167,12 @@ export function EnrollFormAdvanced({
                     name="fullName"
                     placeholder="Nome Completo *"
                     value={formData.fullName}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      handleInputChange(e);
+                      if (formErrors.fullName) setFormErrors((prev) => ({ ...prev, fullName: "" }));
+                    }}
                     validation="name"
+                    externalError={formErrors.fullName}
                     required
                   />
                   <FormField
@@ -154,9 +180,13 @@ export function EnrollFormAdvanced({
                     name="phone"
                     placeholder="Telefone *"
                     value={formData.phone}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      handleInputChange(e);
+                      if (formErrors.phone) setFormErrors((prev) => ({ ...prev, phone: "" }));
+                    }}
                     validation="phone"
                     formatAsPhone
+                    externalError={formErrors.phone}
                     required
                   />
                 </div>
@@ -168,8 +198,12 @@ export function EnrollFormAdvanced({
                     name="email"
                     placeholder="E-mail corporativo *"
                     value={formData.email}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      handleInputChange(e);
+                      if (formErrors.email) setFormErrors((prev) => ({ ...prev, email: "" }));
+                    }}
                     validation="email"
+                    externalError={formErrors.email}
                     required
                   />
                   <FormField
@@ -177,8 +211,12 @@ export function EnrollFormAdvanced({
                     name="role"
                     placeholder="Cargo/Função *"
                     value={formData.role}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      handleInputChange(e);
+                      if (formErrors.role) setFormErrors((prev) => ({ ...prev, role: "" }));
+                    }}
                     validation="textOnly"
+                    externalError={formErrors.role}
                     required
                   />
                 </div>
@@ -203,7 +241,7 @@ export function EnrollFormAdvanced({
                       checked={isPCDNeeded === true}
                       onChange={() => {
                         setIsPCDNeeded(true);
-                        setPcdError(null);
+                        setFormErrors((prev) => ({ ...prev, isPCD: "" }));
                         onFormDataChange({ ...formData, isPCD: true });
                       }}
                       className="w-4 h-4 cursor-pointer"
@@ -219,7 +257,7 @@ export function EnrollFormAdvanced({
                       checked={isPCDNeeded === false}
                       onChange={() => {
                         setIsPCDNeeded(false);
-                        setPcdError(null);
+                        setFormErrors((prev) => ({ ...prev, isPCD: "" }));
                         setPCDDescription("");
                         onFormDataChange({
                           ...formData,
@@ -232,8 +270,8 @@ export function EnrollFormAdvanced({
                     <span className="text-sm text-[#212121]">Não</span>
                   </label>
                 </div>
-                {pcdError && (
-                  <p className="text-xs text-red-500 mt-1">{pcdError}</p>
+                {formErrors.isPCD && (
+                  <p className="text-xs text-red-500 mt-1">{formErrors.isPCD}</p>
                 )}
 
                 {/* PCD Description */}
@@ -282,8 +320,12 @@ export function EnrollFormAdvanced({
                       name="compFinName"
                       placeholder="Nome do Responsável Financeiro da sua empresa *"
                       value={formData.compFinName ?? ""}
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        handleInputChange(e);
+                        if (formErrors.compFinName) setFormErrors((prev) => ({ ...prev, compFinName: "" }));
+                      }}
                       validation="name"
+                      externalError={formErrors.compFinName}
                       required
                     />
                   </div>
@@ -293,8 +335,12 @@ export function EnrollFormAdvanced({
                       name="company"
                       placeholder="Nome da Empresa *"
                       value={formData.company}
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        handleInputChange(e);
+                        if (formErrors.company) setFormErrors((prev) => ({ ...prev, company: "" }));
+                      }}
                       validation="required"
+                      externalError={formErrors.company}
                       required
                     />
                   </div>
@@ -307,8 +353,12 @@ export function EnrollFormAdvanced({
                     name="compFinEmail"
                     placeholder="E-mail do Responsável Financeiro da sua empresa *"
                     value={formData.compFinEmail ?? ""}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      handleInputChange(e);
+                      if (formErrors.compFinEmail) setFormErrors((prev) => ({ ...prev, compFinEmail: "" }));
+                    }}
                     validation="email"
+                    externalError={formErrors.compFinEmail}
                     required
                   />
                 </div>
@@ -414,10 +464,12 @@ export function EnrollFormAdvanced({
                         name="addName"
                         placeholder="Nome completo *"
                         value={formParticipant.addName}
-                        onChange={(e) =>
-                          setFormParticipant({ addName: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setFormParticipant({ addName: e.target.value });
+                          if (participantErrors.addName) setParticipantErrors((prev) => ({ ...prev, addName: "" }));
+                        }}
                         validation="name"
+                        externalError={participantErrors.addName}
                         required
                       />
                       <FormField
@@ -425,10 +477,12 @@ export function EnrollFormAdvanced({
                         name="role"
                         placeholder="Cargo/Função *"
                         value={formParticipant.role}
-                        onChange={(e) =>
-                          setFormParticipant({ role: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setFormParticipant({ role: e.target.value });
+                          if (participantErrors.role) setParticipantErrors((prev) => ({ ...prev, role: "" }));
+                        }}
                         validation="textOnly"
+                        externalError={participantErrors.role}
                         required
                       />
                     </div>
@@ -439,10 +493,12 @@ export function EnrollFormAdvanced({
                         name="email"
                         placeholder="E-mail corporativo *"
                         value={formParticipant.email}
-                        onChange={(e) =>
-                          setFormParticipant({ email: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setFormParticipant({ email: e.target.value });
+                          if (participantErrors.email) setParticipantErrors((prev) => ({ ...prev, email: "" }));
+                        }}
                         validation="email"
+                        externalError={participantErrors.email}
                         required
                       />
                       <FormField
@@ -450,11 +506,13 @@ export function EnrollFormAdvanced({
                         name="phone"
                         placeholder="Telefone *"
                         value={formParticipant.phone}
-                        onChange={(e) =>
-                          setFormParticipant({ phone: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setFormParticipant({ phone: e.target.value });
+                          if (participantErrors.phone) setParticipantErrors((prev) => ({ ...prev, phone: "" }));
+                        }}
                         validation="phone"
                         formatAsPhone
+                        externalError={participantErrors.phone}
                         required
                       />
                     </div>
@@ -471,7 +529,7 @@ export function EnrollFormAdvanced({
                             checked={formParticipant.isPCD === true}
                             onChange={() => {
                               setFormParticipant({ isPCD: true });
-                              setParticipantPcdError(null);
+                              setParticipantErrors((prev) => ({ ...prev, isPCD: "" }));
                             }}
                             className="w-4 h-4 cursor-pointer"
                           />
@@ -485,15 +543,15 @@ export function EnrollFormAdvanced({
                             checked={formParticipant.isPCD === false}
                             onChange={() => {
                               setFormParticipant({ isPCD: false });
-                              setParticipantPcdError(null);
+                              setParticipantErrors((prev) => ({ ...prev, isPCD: "" }));
                             }}
                             className="w-4 h-4 cursor-pointer"
                           />
                           <span className="text-sm text-[#212121]">Não</span>
                         </label>
                       </div>
-                      {participantPcdError && (
-                        <p className="text-xs text-red-500 mt-1">{participantPcdError}</p>
+                      {participantErrors.isPCD && (
+                        <p className="text-xs text-red-500 mt-1">{participantErrors.isPCD}</p>
                       )}
 
                       <Input

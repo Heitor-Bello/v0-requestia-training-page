@@ -17,6 +17,7 @@ interface FormFieldProps {
   required?: boolean;
   className?: string;
   formatAsPhone?: boolean;
+  externalError?: string;
 }
 
 export function FormField({
@@ -29,6 +30,7 @@ export function FormField({
   required = false,
   className = "",
   formatAsPhone = false,
+  externalError,
 }: FormFieldProps) {
   const [error, setError] = useState<string | undefined>();
   const [touched, setTouched] = useState(false);
@@ -71,7 +73,9 @@ export function FormField({
     }
   };
 
-  const hasError = touched && error;
+  // External error takes priority, then internal error
+  const displayError = externalError || (touched ? error : undefined);
+  const hasError = !!displayError;
 
   const baseClasses =
     "w-full px-4 py-2 border rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition";
@@ -90,7 +94,7 @@ export function FormField({
         required={required}
         className={`${baseClasses} ${hasError ? errorClasses : normalClasses} ${className}`}
       />
-      {hasError && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {hasError && <p className="mt-1 text-xs text-red-500">{displayError}</p>}
     </div>
   );
 }
