@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp, Edit2, Trash2, Loader2 } from "lucide-react";
 import { Input } from "./ui/input";
+import { FormField } from "@/components/form";
 import { useAdditionalParticipants } from "@/hooks/use-additional-participants";
 import type {
   AdvancedFormData,
@@ -105,45 +106,46 @@ export function EnrollFormAdvanced({
               <div className="mt-4 space-y-4">
                 {/* FullName and Phone */}
                 <div className="grid grid-cols-2 gap-4 mb-4">
-                  <input
+                  <FormField
                     type="text"
                     name="fullName"
                     placeholder="Nome Completo *"
                     value={formData.fullName}
                     onChange={handleInputChange}
+                    validation="name"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C] focus:border-transparent"
                   />
-                  <input
+                  <FormField
                     type="tel"
                     name="phone"
                     placeholder="Telefone *"
                     value={formData.phone}
                     onChange={handleInputChange}
+                    validation="phone"
+                    formatAsPhone
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C] focus:border-transparent"
                   />
                 </div>
 
                 {/* Email and Role */}
                 <div className="grid grid-cols-2 gap-4">
-                  <input
+                  <FormField
                     type="email"
                     name="email"
                     placeholder="E-mail corporativo *"
                     value={formData.email}
                     onChange={handleInputChange}
+                    validation="email"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C] focus:border-transparent"
                   />
-                  <input
+                  <FormField
                     type="text"
                     name="role"
                     placeholder="Cargo/Função *"
                     value={formData.role}
                     onChange={handleInputChange}
+                    validation="textOnly"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C] focus:border-transparent"
                   />
                 </div>
 
@@ -235,36 +237,40 @@ export function EnrollFormAdvanced({
               <div className="mt-4 space-y-4">
                 {/* Role and Company */}
                 <div className="grid grid-cols-3 gap-4 mb-4">
-                  <input
-                    type="text"
-                    name="compFinName"
-                    placeholder="Nome do Responsável Financeiro da sua empresa *"
-                    value={formData.compFinName}
-                    onChange={handleInputChange}
-                    required
-                    className="col-span-2 w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C] focus:border-transparent"
-                  />
-                  <input
-                    type="text"
-                    name="company"
-                    placeholder="Nome da Empresa *"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    required
-                    className="col-span-1 w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C] focus:border-transparent"
-                  />
+                  <div className="col-span-2">
+                    <FormField
+                      type="text"
+                      name="compFinName"
+                      placeholder="Nome do Responsável Financeiro da sua empresa *"
+                      value={formData.compFinName}
+                      onChange={handleInputChange}
+                      validation="name"
+                      required
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <FormField
+                      type="text"
+                      name="company"
+                      placeholder="Nome da Empresa *"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      validation="required"
+                      required
+                    />
+                  </div>
                 </div>
 
                 {/* compFinEmail */}
                 <div className="mb-4">
-                  <input
-                    type="text"
+                  <FormField
+                    type="email"
                     name="compFinEmail"
                     placeholder="E-mail do Responsável Financeiro da sua empresa *"
                     value={formData.compFinEmail}
                     onChange={handleInputChange}
+                    validation="email"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C] focus:border-transparent"
                   />
                 </div>
               </div>
@@ -364,44 +370,53 @@ export function EnrollFormAdvanced({
 
                     {/* Form fields */}
                     <div className="grid grid-cols-2 gap-4">
-                      <input
+                      <FormField
                         type="text"
+                        name="addName"
                         placeholder="Nome completo *"
                         value={formParticipant.addName}
                         onChange={(e) =>
                           setFormParticipant({ addName: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C]"
+                        validation="name"
+                        required
                       />
-                      <input
+                      <FormField
                         type="text"
+                        name="role"
                         placeholder="Cargo/Função *"
                         value={formParticipant.role}
                         onChange={(e) =>
                           setFormParticipant({ role: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C]"
+                        validation="textOnly"
+                        required
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                      <input
+                      <FormField
                         type="email"
+                        name="email"
                         placeholder="E-mail corporativo *"
                         value={formParticipant.email}
                         onChange={(e) =>
                           setFormParticipant({ email: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C]"
+                        validation="email"
+                        required
                       />
-                      <input
+                      <FormField
                         type="tel"
+                        name="phone"
                         placeholder="Telefone *"
                         value={formParticipant.phone}
                         onChange={(e) =>
                           setFormParticipant({ phone: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0D5B9C]"
+                        validation="phone"
+                        formatAsPhone
+                        required
                       />
                     </div>
 
