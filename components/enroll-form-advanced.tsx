@@ -193,7 +193,7 @@ export function EnrollFormAdvanced({
             {isParticipantDataExpanded && (
               <div className="mt-4 space-y-4">
                 {/* FullName and Phone */}
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <FormField
                     type="text"
                     name="fullName"
@@ -228,7 +228,7 @@ export function EnrollFormAdvanced({
                 </div>
 
                 {/* Email and Role */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField
                     type="email"
                     name="email"
@@ -355,8 +355,8 @@ export function EnrollFormAdvanced({
             {isCompanyDataExpanded && (
               <div className="mt-4 space-y-4">
                 {/* Role and Company */}
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div className="col-span-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                  <div className="sm:col-span-2">
                     <FormField
                       type="text"
                       name="compFinName"
@@ -376,7 +376,7 @@ export function EnrollFormAdvanced({
                       required
                     />
                   </div>
-                  <div className="col-span-1">
+                  <div className="sm:col-span-1">
                     <FormField
                       type="text"
                       name="company"
@@ -512,7 +512,7 @@ export function EnrollFormAdvanced({
                     </h5>
 
                     {/* Form fields */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         type="text"
                         name="addName"
@@ -551,7 +551,7 @@ export function EnrollFormAdvanced({
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         type="email"
                         name="email"
