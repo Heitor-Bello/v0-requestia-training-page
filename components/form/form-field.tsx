@@ -85,8 +85,9 @@ export function FormField({
   const displayError = externalError || (touched ? error : undefined);
   const hasError = !!displayError;
 
-  // Label should float when focused or has value, but NOT when there's an error and no value
-  const shouldFloat = (isFocused || value.length > 0) && !(hasError && value.length === 0);
+  // Label should float when focused or has value
+  // Only stay in center when there's an error, no value, AND not focused
+  const shouldFloat = isFocused || value.length > 0;
 
   return (
     <div className={`relative w-full ${className}`}>
