@@ -219,7 +219,7 @@ export default function Home() {
 
           {/* Level buttons */}
           <div className="flex justify-center mb-12">
-            <div className="relative flex items-center bg-[#E3EDF5] p-5 rounded-full">
+            <div className="relative flex items-center bg-[#E3EDF5] p-2 sm:p-5 rounded-full">
               {(
                 [
                   { id: "essentials", label: "Essentials" },
@@ -230,7 +230,7 @@ export default function Home() {
                 <div key={level.id} className="relative flex items-center">
                   <button
                     onClick={() => setSelectedLevel(level.id)}
-                    className={`cursor-pointer relative z-10 px-5 py-2 rounded-full text-base sm:text-xl font-regular transition-all
+                    className={`cursor-pointer relative z-10 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-sm sm:text-xl font-regular transition-all
             ${selectedLevel === level.id
                         ? "bg-[#0D5B9C] text-white"
                         : "bg-[#CBDDEF] text-white/70 hover:bg-[#ACC8E4]"
@@ -241,7 +241,7 @@ export default function Home() {
 
                   {/* Conector */}
                   {index < arr.length - 1 && (
-                    <div className="relative flex items-center w-10">
+                    <div className="relative flex items-center w-4 sm:w-10">
                       {/* Linha conectora */}
                       <div
                         className={`absolute w-[68%] h-[2px] ${selectedLevel === level.id
@@ -251,7 +251,7 @@ export default function Home() {
                       />
                       {/* Círculo no final da linha */}
                       <div
-                        className={`absolute right-[9px] translate-x-1/2 w-[10px] h-[10px] rounded-full bg-white border-[3.5px] ${selectedLevel === level.id
+                        className={`absolute right-[3px] sm:right-[9px] translate-x-1/2 w-[8px] sm:w-[10px] h-[8px] sm:h-[10px] rounded-full bg-white border-2 sm:border-[3.5px] ${selectedLevel === level.id
                             ? "border-[#0D5B9C]"
                             : "border-[#CBDDEF]"
                           }`}
