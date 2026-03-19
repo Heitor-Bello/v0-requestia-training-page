@@ -219,7 +219,7 @@ export default function Home() {
 
           {/* Level buttons */}
           <div className="flex justify-center mb-12">
-            <div className="relative flex items-center bg-[#E3EDF5] p-2 sm:p-5 rounded-full">
+            <div className="relative flex items-center gap-1 sm:gap-0 bg-[#E3EDF5] p-2 sm:p-5 rounded-full">
               {(
                 [
                   { id: "essentials", label: "Essentials" },
@@ -239,9 +239,9 @@ export default function Home() {
                     {level.label}
                   </button>
 
-                  {/* Conector */}
+                  {/* Conector - hidden on mobile */}
                   {index < arr.length - 1 && (
-                    <div className="relative flex items-center w-4 sm:w-10">
+                    <div className="relative hidden sm:flex items-center w-10">
                       {/* Linha conectora */}
                       <div
                         className={`absolute w-[68%] h-[2px] ${selectedLevel === level.id
@@ -251,7 +251,7 @@ export default function Home() {
                       />
                       {/* Círculo no final da linha */}
                       <div
-                        className={`absolute right-[3px] sm:right-[9px] translate-x-1/2 w-[8px] sm:w-[10px] h-[8px] sm:h-[10px] rounded-full bg-white border-2 sm:border-[3.5px] ${selectedLevel === level.id
+                        className={`absolute right-[9px] translate-x-1/2 w-[10px] h-[10px] rounded-full bg-white border-[3.5px] ${selectedLevel === level.id
                             ? "border-[#0D5B9C]"
                             : "border-[#CBDDEF]"
                           }`}
