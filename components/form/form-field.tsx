@@ -89,29 +89,41 @@ export function FormField({
   // Only stay in center when there's an error, no value, AND not focused
   const shouldFloat = isFocused || value.length > 0;
 
+  // Show error inside input when empty and not focused
+  const showErrorInside = hasError && !isFocused && value.length === 0;
+
   return (
     <div className={`relative w-full ${className}`}>
-      {/* Floating Label */}
-      <label
-        htmlFor={name}
-        className={`
-          absolute left-3 px-1 transition-all duration-200 pointer-events-none
-          whitespace-nowrap overflow-hidden text-ellipsis max-w-[calc(100%-24px)]
-          ${shouldFloat
-            ? "-top-2.5 text-xs bg-white"
-            : "top-1/2 -translate-y-1/2 text-sm bg-transparent"
-          }
-          ${hasError
-            ? "text-red-500"
-            : isFocused
-              ? "text-[#0D5B9C]"
-              : "text-gray-500"
-          }
-        `}
-      >
-        {label}
-        {required && " *"}
-      </label>
+      {/* Floating Label - hidden when error is shown inside */}
+      {!showErrorInside && (
+        <label
+          htmlFor={name}
+          className={`
+            absolute left-3 px-1 transition-all duration-200 pointer-events-none
+            whitespace-nowrap overflow-hidden text-ellipsis max-w-[calc(100%-24px)]
+            ${shouldFloat
+              ? "-top-2.5 text-xs bg-white"
+              : "top-1/2 -translate-y-1/2 text-sm bg-transparent"
+            }
+            ${hasError
+              ? "text-red-500"
+              : isFocused
+                ? "text-[#0D5B9C]"
+                : "text-gray-500"
+            }
+          `}
+        >
+          {label}
+          {required && " *"}
+        </label>
+      )}
+
+      {/* Error Message Inside Input */}
+      {showErrorInside && (
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-red-500 pointer-events-none">
+          {displayError}
+        </span>
+      )}
 
       {/* Input */}
       <input
@@ -134,9 +146,6 @@ export function FormField({
           ${shouldFloat ? "placeholder-gray-400" : "placeholder-transparent"}
         `}
       />
-
-      {/* Error Message */}
-      {hasError && <p className="mt-1 text-xs text-red-500">{displayError}</p>}
     </div>
   );
 }
