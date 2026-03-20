@@ -162,7 +162,7 @@ export function EnrollFormAdvanced({
   const remainingSlots = maxParticipants - additionalParticipants.length;
 
   return (
-    <div className="md:col-span-2 border rounded-2xl shadow-lg shadow-[#004680]/10 flex flex-col h-[680px]">
+    <div className="md:col-span-2 border rounded-2xl shadow-lg shadow-[#004680]/10 flex flex-col sm:h-[680px]">
       {/* Header */}
       <div className="p-6">
         <h3 className="text-2xl font-normal text-[#00233f]">
@@ -170,8 +170,8 @@ export function EnrollFormAdvanced({
         </h3>
       </div>
 
-      {/* Scrollable Form Content */}
-      <div className="flex-1 overflow-y-auto no-scrollbar p-6">
+      {/* Form Content - no scroll on mobile, scroll on desktop */}
+      <div className="flex-1 sm:overflow-y-auto sm:no-scrollbar p-6">
         <form onSubmit={validateAndSubmit} className="space-y-4">
           {/* Participant Data Section */}
           <div className="mb-6 border-b pb-4">
